@@ -22,6 +22,12 @@ const routes = [{
         name: 'upload',
         component: () =>
             import ('../views/dataUpload.vue'),
+    },
+    {
+        path: '/knowledgemap',
+        name: 'knowledgeMap',
+        component: () =>
+            import ('../views/knowledgeMap.vue'),
     }
 ]
 export default routes
