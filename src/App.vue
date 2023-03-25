@@ -1,30 +1,74 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
-<template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+<template>  
+  <router-view />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<style lang="scss" >
+#app {
+
+  width: 100vw;
+  height: 100vh;
+  padding: 0!important;
+  margin: 0!important;
+
+  // color: var(--el-text-color-primary);
+  // background-color: $bg-color;
+
+  /* 全局修改el-card样式 */
+  // .el-card {
+  //   box-shadow: $box-shadow-default;
+  // }
+
+  // icon与文本对齐
+  .el-tag {
+    .el-tag__content {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .el-empty {
+    --el-empty-fill-color-1: var(--el-color-primary-light-9);
+    --el-empty-fill-color-2: var(--el-color-primary-light-9);
+    --el-empty-fill-color-5: var(--el-color-primary-light-8);
+    --el-empty-fill-color-7: var(--el-color-primary-light-7);
+    --el-empty-fill-color-8: var(--el-color-primary-light-7);
+    --el-empty-fill-color-9: var(--el-color-primary-light-5);
+  }
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+  overflow-x: hidden;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+//修改滚动条样式
+::-webkit-scrollbar {
+  width: 10px;
+  height: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: none;
+  background: rgb(217, 217, 217);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+
+  &:hover {
+    background: rgb(168, 168, 168);
+  }
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 10px;
+  // background: #06b0b9;
+  -webkit-box-shadow: none;
 }
 </style>

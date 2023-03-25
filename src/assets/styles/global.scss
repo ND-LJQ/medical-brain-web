@@ -1,0 +1,43 @@
+$global-width: 1100px;
+// body左右padding
+$body-padding-list: ( '600px': 50px, '1200px': 100px, '1920px': 150px, );
+@mixin body-padding($list) {
+    @each $point,
+    $size in $list {
+        @media (min-width: $point) {
+            padding: 0 $size;
+        }
+    }
+}
+
+
+/* 背景 */
+
+// $bg-color: #f7f8fa;
+
+/* 边框 */
+
+$box-padding: 20px;
+$box-shadow-default: 0 2px 8px rgb(0 0 0 / 8%),
+0 1px 2px rgb(0 0 0 / 10%);
+
+/* 便捷类名 */
+
+// 单行文本省略显示 案例：@extend .single-line;
+.single-line {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// 2-5的多行文本省略显示 案例：@extend .multi-line-2;@extend .multi-line-5;
+@for $i from 2 through 5 {
+    .multi-line-#{$i} {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: $i;
+        -webkit-box-orient: vertical;
+    }
+}
