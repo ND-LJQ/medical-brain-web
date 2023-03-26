@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 10:13:34
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-25 16:58:57
+ * @LastEditTime: 2023-03-26 09:19:26
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -76,6 +76,7 @@ onMounted(()=>{
 .bg_video{
   position: absolute;
   z-index: -1;
+  width: 100%;
   video{
     object-fit: contain;
     overflow-clip-margin: content-box;
@@ -84,7 +85,7 @@ onMounted(()=>{
     outline: none!important;
     mix-blend-mode: darken;
     width: 100%;
-    height: 719px;
+    height: 99.81vh;
   }
 }
 
@@ -111,21 +112,21 @@ onMounted(()=>{
         background-image: linear-gradient(to right, rgb(10, 47, 198), rgb(26, 120, 255));
         -webkit-background-clip: text;
         color: transparent;
-        font-size:40px;
+        font-size:2.5vw;
         font-weight: 600;
       }
       .banner_text{
         margin:15px 0 15px 0 ;
-        font-size:40px;
+        font-size:2.5vw;
         font-weight: 600;
       }
 
       .btn_list{
         margin:15px 0 15px 0 ;
         .el-button{
-          height: 40px;
-          width: 128px;
-          font-size: 17px;
+          height: 2.5vw;
+          width: 7.5vw;
+          font-size: 1vw;
         }
       }
     }

@@ -2,14 +2,14 @@
  * @Author: ND_LJQ
  * @Date: 2022-05-01 19:52:22
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-25 10:32:58
+ * @LastEditTime: 2023-03-25 22:53:45
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
 <template>
   <div class="header-button-group">
     <el-button-group class="ml-4 header-button">
-      <!-- <el-button
+      <el-button
         @click="loginHandler"
         type="primary"
         class="login-button"
@@ -21,7 +21,7 @@
           z-index: 0;
         "
         >登录</el-button
-      > -->
+      >
 
       <el-switch
         v-model="theme"
@@ -31,7 +31,7 @@
         style="--el-switch-on-color: #f2f2f2; --el-switch-off-color: #2c2c2c"
       />
 
-      <div class="user-avatar" v-if="true" style="margin-left: 10px">
+      <div class="user-avatar" v-if="false" style="margin-left: 10px">
         <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             <div style="display: flex; justify-content: center; align-items: center">
@@ -62,6 +62,7 @@
 import {ref} from 'vue'
 import myMoon from './components/MyMoon.vue';
 import mySun from './components/MySun.vue';
+import OlpLoginAndRegiseter from '../../../OlpLoginAndRegiseter/OlpLoginAndRegiseter.vue'
 import { useDark, useToggle, useStorage } from '@vueuse/core';
 const modelVisible = ref(false);
 

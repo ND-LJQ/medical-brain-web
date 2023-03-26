@@ -1,3 +1,11 @@
+<!--
+ * @Author: ND_LJQ
+ * @Date: 2023-03-25 09:34:45
+ * @LastEditors: ND_LJQ
+ * @LastEditTime: 2023-03-26 09:08:54
+ * @Description: 
+ * @Email: ndliujunqi@outlook.com
+-->
 <script setup>
 </script>
 
@@ -70,5 +78,11 @@ body {
   border-radius: 10px;
   // background: #06b0b9;
   -webkit-box-shadow: none;
+}
+
+
+body{
+  margin: 0;
+  padding: 0;
 }
 </style>

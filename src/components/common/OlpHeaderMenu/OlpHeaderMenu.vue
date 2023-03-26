@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-04-30 18:36:59
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-25 20:14:04
+ * @LastEditTime: 2023-03-26 10:29:45
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -24,11 +24,11 @@
     <el-col :span="16">
       <div class="menu-content" ref="menuContent">
         <el-menu
-          :default-active="activeIndex"
+          :default-active="$route.path"
           class="el-menu-header"
           mode="horizontal"
           @select="handleSelect"
-
+          :collapse="isCollapse.value"
         >
           <div class="flex-grow" />
           <!-- 递归动态菜单 -->
@@ -42,7 +42,7 @@
   </el-row>
 </template>
 
-<script lang="ts" setup>
+<script  setup>
 import {reactive,ref,watch,nextTick,onMounted,onUnmounted} from 'vue'
 import { useRouter } from 'vue-router';
 import OlpMenuItem from './components/OlpMenuItem/OlpMenuItem.vue';
@@ -118,7 +118,7 @@ watch(
   () => router.currentRoute.value,
   routerInstance => {
     let index = '';
-    let routerPath = routerInstance.meta?.title as string;
+    let routerPath = routerInstance.meta?.title;
     if (routerPath != null) {
       itemArr.forEach(item => {
         if (item.path?.substring(1) === routerPath) {
@@ -132,11 +132,11 @@ watch(
   { immediate: true, deep: true }
 );
 
-const handleSelect = (key: string, keyPath: string[]) => {
+const handleSelect = (key, keyPath) => {
   router.push({ path: key });
 };
 
-const isCollapse = ref(true);
+const isCollapse = ref(false);
 const handleOpen = () => {
   isCollapse.value = false;
 };
@@ -146,12 +146,12 @@ const handleClose = () => {
 
 const menuContent = ref();
 
-const findC = (arr1: Array<any>) => {
+const findC = (arr1) => {
   if (
     itemArr.filter(() => {
       return arr1.forEach(item => {
         if (
-          itemArr.find(function (items: any) {
+          itemArr.find(function (items) {
             return items.icon === item.icon;
           }) != undefined
         ) {
@@ -168,9 +168,9 @@ const findC = (arr1: Array<any>) => {
   return false;
 };
 
-const isHas = (newWidth: number, popItem: any, popArr: any, omit: any) => {
+const isHas = (newWidth, popItem, popArr, omit) => {
   if (
-    itemArr.find(function (popArr: any) {
+    itemArr.find(function (popArr) {
       return popArr.icon === 'MoreFilled';
     }) != undefined
   ) {
@@ -193,7 +193,7 @@ const getWidth = () => {
       // width.value = (newWidth - 450) / 2;
 
       if (newWidth <= 1100) {
-        const omit: any = {
+        const omit = {
           name: '',
           sort: '10',
           icon: 'MoreFilled',
@@ -206,6 +206,13 @@ const getWidth = () => {
     }
   });
 };
+
+
+
+
+    const  handleResize = () => {
+      isCollapse.value = window.innerWidth < 768;
+    }
 
 onMounted(() => {
   getWidth();
@@ -249,7 +256,7 @@ ul {
       background-image: linear-gradient(to right, rgb(10, 47, 198), rgb(26, 120, 255));
       -webkit-background-clip: text;
       color: transparent;
-      font-size:40px;
+      font-size:2.5vw;
       font-weight: 600;
     }
   }
