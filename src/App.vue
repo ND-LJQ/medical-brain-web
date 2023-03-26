@@ -2,14 +2,14 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 09:34:45
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-26 09:08:54
+ * @LastEditTime: 2023-03-26 22:25:18
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
 <script setup>
 </script>
 
-<template>  
+<template> 
   <router-view />
 </template>
 
@@ -80,6 +80,10 @@ body {
   -webkit-box-shadow: none;
 }
 
+.header{
+  width: 100vw;
+  // margin-top:20px;
+}
 
 body{
   margin: 0;

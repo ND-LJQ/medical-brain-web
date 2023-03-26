@@ -2,17 +2,16 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 16:11:24
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-25 20:08:17
+ * @LastEditTime: 2023-03-26 22:55:31
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
 
 <template>
-  <div class="header">
-    <olp-header-menu></olp-header-menu>
-  </div>
   <div>
-
+    <div class="header">
+      <olp-header-menu></olp-header-menu>
+    </div> 
     
   <el-dialog
     v-model="dialogVisible"

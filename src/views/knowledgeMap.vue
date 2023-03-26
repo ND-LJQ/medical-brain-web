@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 20:09:52
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-26 22:17:14
+ * @LastEditTime: 2023-03-26 22:44:39
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -11,9 +11,7 @@
   <div>
     <div class="header">
       <olp-header-menu></olp-header-menu>
-    </div>
-
-
+    </div> 
     <div class="map-body">
       <div class="body-content">
         <div class="search-box">
@@ -22,7 +20,6 @@
               v-model="inputValue"
               placeholder="请输入要查询的实体或关系"
               class="input-with-select"
-              v-bind:id="mapInput"
               style="width: 100%;height: 100%;"
             >
               <template #append>
@@ -54,7 +51,7 @@ import * as echarts from 'echarts'
 import axios from 'axios'
 
 
-const inputId = "mapInput"
+const inputId = ref("mapInput")
 const inputValue = ref('')
 
 
@@ -150,14 +147,7 @@ onMounted(() => {
     searchLineOrPoint(value)
   })
 
-  console.log(input);
 
-  input.addEventListener('keyup',(event)=>{
-    if(event.keyCode === 13){
-      let value = inputValue.value
-    searchLineOrPoint(value)
-    }
-  })
 
   // 实现搜索函数
   function searchLineOrPoint(keyword) {
