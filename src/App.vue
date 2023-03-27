@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 09:34:45
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-26 22:25:18
+ * @LastEditTime: 2023-03-27 12:55:59
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -70,6 +70,11 @@ body {
   &:hover {
     background: rgb(168, 168, 168);
   }
+}
+
+img {
+  user-select: none;
+  // draggable: false;
 }
 
 ::-webkit-scrollbar-track {

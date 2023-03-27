@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 10:13:34
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-26 22:57:47
+ * @LastEditTime: 2023-03-27 22:56:37
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -38,10 +38,14 @@
   </template>
   
   <script setup>
-  import OlpHeaderMenu from '../components/common/OlpHeaderMenu/OlpHeaderMenu.vue'
+  import OlpHeaderMenu from '../components/base/OlpHeaderMenu/OlpHeaderMenu.vue'
   import { onMounted } from 'vue'
-  
-  
+
+
+
+
+
+
   onMounted(()=>{
     console.log(window);
     let header = document.querySelector(".header")
@@ -109,7 +113,7 @@
         flex-direction: column;
         text-align: left;
         .banner_title{
-          background-image: linear-gradient(to right, rgb(10, 47, 198), rgb(26, 120, 255));
+          background-image: linear-gradient(to right, rgb(7, 135, 199), rgb(0, 162, 233));
           -webkit-background-clip: text;
           color: transparent;
           font-size:2.5vw;
@@ -132,5 +136,8 @@
       }
     }
   }
+
+
+
   
   </style>

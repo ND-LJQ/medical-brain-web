@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 16:11:24
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-26 22:55:31
+ * @LastEditTime: 2023-03-27 10:56:41
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import OlpHeaderMenu from '../components/common/OlpHeaderMenu/OlpHeaderMenu.vue'
+import OlpHeaderMenu from '../components/base/OlpHeaderMenu/OlpHeaderMenu.vue'
 import MedicalTablePage from '../components/common/MedicalTablePage/MedicalTablePage.vue'
 import { ref } from 'vue';
 
@@ -90,7 +90,7 @@ const handleClose = (done) => {
 }
 
 .file-list{
-  margin-top: 20px;
+  margin-top: 2%;
   width: 100%;
   display: flex;
   justify-content: center;

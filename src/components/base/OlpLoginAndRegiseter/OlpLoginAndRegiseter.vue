@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-05-19 09:33:22
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-25 22:55:58
+ * @LastEditTime: 2023-03-27 13:32:40
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -18,7 +18,7 @@
               <el-icon><Close /></el-icon>
             </div>
             <div class="logo-img">
-              <img src="../../../assets/images/logo1.png" />
+              <img src="../../../assets/images/logo1-removebg-preview.svg" />
             </div>
             <div class="header-title">
               <span><h2>注册</h2></span>

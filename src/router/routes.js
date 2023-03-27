@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 16:54:30
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-25 16:54:30
+ * @LastEditTime: 2023-03-26 23:04:03
  * @Description: 
  * @Email: ndliujunqi@outlook.com
  */
@@ -28,6 +28,12 @@ const routes = [{
         name: 'knowledgeMap',
         component: () =>
             import ('../views/knowledgeMap.vue'),
+    },
+    {
+        path: '/datasearch',
+        name: 'datasearch',
+        component: () =>
+            import ('../views/dataSearch.vue'),
     }
 ]
 export default routes

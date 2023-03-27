@@ -2,14 +2,14 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 17:23:05
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-25 19:51:01
+ * @LastEditTime: 2023-03-27 09:15:06
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
 <template>
   <div class="table-body">
     <div class="table-pillar">
-  <el-table :data="nowTableData()" style="width: 100%">
+  <el-table :data="nowTableData()" style="width: 100%;"  class="responsive-table">
       <!-- <el-table-column type="index" width="0" /> -->
       <el-table-column prop="projectName" label="项目名称"  >
         <template #default="scope">
@@ -146,7 +146,7 @@ const tableData = [
   flex-direction: column;
   justify-content: space-between;
   .table-pillar{
-    height: 500px;
+    height: 70vh;
   }
 }
 
@@ -161,5 +161,25 @@ const tableData = [
 }
 .el-table .success-row {
   --el-table-tr-bg-color: var(--el-color-success-light-9);
+}
+
+
+.responsive-table td,
+.responsive-table th {
+  font-size: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .responsive-table td,
+  .responsive-table th {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .responsive-table td,
+  .responsive-table th {
+    font-size: 0.6rem;
+  }
 }
 </style>

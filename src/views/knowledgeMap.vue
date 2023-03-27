@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 20:09:52
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-26 22:44:39
+ * @LastEditTime: 2023-03-27 09:24:27
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -45,7 +45,7 @@
 
 <script setup>
 import {onMounted,ref } from 'vue'
-import OlpHeaderMenu from '../components/common/OlpHeaderMenu/OlpHeaderMenu.vue'
+import OlpHeaderMenu from '../components/base/OlpHeaderMenu/OlpHeaderMenu.vue'
 //Echarts5.0 更新了引入方式
 import * as echarts from 'echarts'
 import axios from 'axios'
