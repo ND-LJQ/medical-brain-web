@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 10:13:34
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-27 22:56:37
+ * @LastEditTime: 2023-03-30 15:08:05
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -19,7 +19,7 @@
     <div class="banner-left">
       <div class="banner_content">
         <div class="banner_title">
-          <span>医疗大脑</span>
+          <span>医学大脑</span>
         </div>
   
         <div class="banner_text">
@@ -40,7 +40,6 @@
   <script setup>
   import OlpHeaderMenu from '../components/base/OlpHeaderMenu/OlpHeaderMenu.vue'
   import { onMounted } from 'vue'
-
 
 
 

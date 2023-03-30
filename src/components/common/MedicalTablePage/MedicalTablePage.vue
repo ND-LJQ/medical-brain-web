@@ -2,14 +2,14 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 17:23:05
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-27 09:15:06
+ * @LastEditTime: 2023-03-30 17:41:47
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
 <template>
   <div class="table-body">
     <div class="table-pillar">
-  <el-table :data="nowTableData()" style="width: 100%;"  class="responsive-table">
+  <el-table :data="filterTableData" style="width: 100%;"  class="responsive-table">
       <!-- <el-table-column type="index" width="0" /> -->
       <el-table-column prop="projectName" label="项目名称"  >
         <template #default="scope">
@@ -19,6 +19,32 @@
       </el-table-column>
       <el-table-column prop="fileName" label="文件名称"  />
       <el-table-column prop="updateTime" label="更新时间" sortable />
+      <el-table-column align="right">
+      <template #header>
+        <el-input v-model="search" size="small" placeholder="键入以搜索上传文件" />
+      </template>
+      <template #default="scope">
+        <el-button 
+        size="small" 
+        type="success"
+        @click="handleEdit(scope.$index, scope.row)"
+          >下载</el-button
+        >
+
+        <el-button 
+        size="small" 
+        type="warning"
+        @click="handleEdit(scope.$index, scope.row)"
+          >在线预览</el-button
+        >
+        <el-button
+          size="small"
+          type="danger"
+          @click="handleDelete(scope.$index, scope.row)"
+          >删除</el-button
+        >
+      </template>
+    </el-table-column>
     </el-table>
     </div>
 
@@ -35,7 +61,7 @@
 </template>
 
 <script setup>
-import {reactive} from 'vue'
+import {reactive,ref,computed} from 'vue'
 
 // const tableRowClassName = ({ row, rowIndex }) => {
 //   if (rowIndex === 1) {
@@ -45,6 +71,7 @@ import {reactive} from 'vue'
 //   }
 //   return ''
 // }
+const search = ref('')
 
 const tableData = [
   {
@@ -135,6 +162,23 @@ const tableData = [
     const handleSizeChange = (e) => {
       state.limit = e;
     };
+
+
+    //最终的搜索列表
+    const filterTableData = computed(() =>
+      nowTableData().filter(
+        (data) =>
+          !search.value ||
+          data.projectName.toLowerCase().includes(search.value.toLowerCase()) || data.fileName.toLowerCase().includes(search.value.toLowerCase())
+    ))
+
+
+    const handleEdit = (index, row) => {
+      console.log(index, row)
+    }
+    const handleDelete = (index, row) => {
+      console.log(index, row)
+    }
 
 </script>
 
