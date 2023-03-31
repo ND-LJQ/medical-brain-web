@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-04-30 18:36:59
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-30 15:08:32
+ * @LastEditTime: 2023-03-30 21:31:56
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -83,6 +83,7 @@ const itemArr = reactive([
   {
     name: '智能问答',
     sort: '5',
+    path: '/smartqa',
     icon: 'ChatDotSquare',
     children: [],
   },

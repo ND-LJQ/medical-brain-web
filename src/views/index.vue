@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 10:13:34
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-30 15:08:05
+ * @LastEditTime: 2023-03-30 22:45:50
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -19,11 +19,11 @@
     <div class="banner-left">
       <div class="banner_content">
         <div class="banner_title">
-          <span>医学大脑</span>
+          <span id="title_typed"></span>
         </div>
   
         <div class="banner_text">
-          <span>让数据分析更简单</span>
+          <span id="text_typed"></span>
         </div>
   
         <div class="btn_list">
@@ -40,17 +40,19 @@
   <script setup>
   import OlpHeaderMenu from '../components/base/OlpHeaderMenu/OlpHeaderMenu.vue'
   import { onMounted } from 'vue'
+  import Typed from 'typed.js'
+
+
 
 
 
 
 
   onMounted(()=>{
-    console.log(window);
+    
     let header = document.querySelector(".header")
   
-    console.log(header.style);
-    console.log(header);
+    
   
     window.addEventListener("scroll",()=>{
       let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -61,6 +63,23 @@
       }
       
     })
+
+    const titleOptions = {
+      strings:['医学大脑'],
+      typeSpeed:150, //打印速度,number越大速度越慢
+      // startDelay:300,
+      loop:false
+    }
+
+    const textOptions = {
+      strings:['让数据分析更简单'],
+      typeSpeed:150,
+      startDelay:750,
+      loop:false
+    }
+
+    const titleTyped = new Typed('#title_typed',titleOptions)
+    const textTyped = new Typed('#text_typed',textOptions)
   })
   
   

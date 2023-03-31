@@ -34,6 +34,13 @@ const routes = [{
         name: 'datasearch',
         component: () =>
             import ('../views/dataSearch.vue'),
+    },
+    {
+
+        path: '/smartqa',
+        name: 'smartqa',
+        component: () =>
+            import ('../views/wisdomQA.vue')
     }
 ]
 export default routes
