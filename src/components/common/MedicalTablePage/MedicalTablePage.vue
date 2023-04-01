@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 17:23:05
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-30 17:41:47
+ * @LastEditTime: 2023-04-01 16:59:21
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -27,20 +27,20 @@
         <el-button 
         size="small" 
         type="success"
-        @click="handleEdit(scope.$index, scope.row)"
+        @click="handleDownloadClick(scope.$index, scope.row)"
           >下载</el-button
         >
 
         <el-button 
         size="small" 
         type="warning"
-        @click="handleEdit(scope.$index, scope.row)"
+        @click="handlePreviewClick()"
           >在线预览</el-button
         >
         <el-button
           size="small"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)"
+          @click="handleDownloadClick(scope.$index, scope.row)"
           >删除</el-button
         >
       </template>
@@ -179,6 +179,25 @@ const tableData = [
     const handleDelete = (index, row) => {
       console.log(index, row)
     }
+
+    const handlePreviewClick = () => {
+    // 发送请求获取文件预览
+    axios.get('/your-download-api', { params: { fileId: fileId } })
+      .then(response => {
+        // 将文件Base64编码字符串作为URL打开
+        window.open('data:' + response.data.mime + ';base64,' + response.data.content, '_blank');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+    const handleDownloadClick = () => {
+      // 下载文件
+        window.open('/your-download-api?fileId=' + fileId, '_blank');
+    }
+
+
+
 
 </script>
 

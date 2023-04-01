@@ -1,29 +1,47 @@
 <template>
   <div class="chat-container">
-    <div class="chat-messages">
+    <div class="chat-messages" v-if="showChatMessages">
       <div v-for="(message, index) in messages" :key="index" :class="messageClass(message)">
-        <div class="message-content">{{ message.content }}</div>
+        <div class="avatar">
+            <!-- <img :src="showAvatarFlag?userAvatarSrc:brainAvatarSrc" alt=""> -->
+            <!-- <img src="../../../assets/images/braincoloful.svg" v-if="showAvatarFlag" alt=""> -->
+            <el-icon v-if="showAvatarFlag"><User /></el-icon>
+            <img src="../../../assets/images/logo1-removebg-preview.svg" v-if="!showAvatarFlag"  alt="">
+        </div>
+        <div :class="['message-content','message-content'+index]">
+          {{ message.content }}
+        </div>
       </div>
     </div>
     <div class="chat-input">
       <input
         v-model="userInput"
-        @keyup.enter="sendMessage"
         type="text"
         placeholder="请输入您的消息"
       />
       <button @click="sendMessage">发送</button>
     </div>
   </div>
+
+  <el-backtop :bottom="40" />
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref,onMounted,defineEmits } from 'vue';
+import user from '../../../network/security/user';
+
+// const userAvatarSrc = "../../../assets/images/braincoloful.svg"
+// const brainAvatarSrc = "../../../assets/images/logo1-removebg-preview.svg"
+const showAvatarFlag = ref(true)
+const showChatMessages = ref(true)
+const emit = defineEmits(['dropDownValueChange'])
 
 const messages = ref([]);
     const userInput = ref('');
 
     const sendMessage = () => {
+      if(userInput.value!=''){
+        emit('dropDownValueChange',true)
       if (!userInput.value.trim()) return;
 
       messages.value.push({ sender: 'user', content: userInput.value });
@@ -33,23 +51,48 @@ const messages = ref([]);
       // 为了简化示例，我们使用一个模拟回复。
       const gptResponse = '这是 GPT 的回复。';
       messages.value.push({ sender: 'gpt', content: gptResponse });
+      }
     };
 
     const messageClass = (message) => {
-      return {
-        'message-user': message.sender === 'user',
-        'message-gpt': message.sender === 'gpt',
-      };
+      if(message.sender === 'user'){
+        showAvatarFlag.value = true
+        return 'message-user'
+      }else{
+        showAvatarFlag.value = false
+        return 'message-gpt'
+      }
+      // return {
+      //   'message-user': message.sender === 'user',
+      //   'message-gpt': message.sender === 'gpt',
+      // };
     };
+
+    const textOptions = {
+        strings:[],
+        typeSpeed:150, //打印速度,number越大速度越慢
+        // startDelay:300,
+        loop:false
+    }
+
+
+    onMounted(()=>{
+
+      
+
+      
+      
+    })
 </script>
 
 <style lang="scss" scoped>
 .chat-container {
   display: flex;
-  flex-direction: column;
-  width: 100%;
+  // flex-direction: column;
+  justify-content: center;
+  width: 77%;
   height: 100%;
-  max-width: 600px;
+  // max-width: 600px;
   margin: 0 auto;
 }
 
@@ -68,11 +111,13 @@ const messages = ref([]);
 }
 
 .message-user {
+  display: flex;
   background-color: #d9e4ff;
   align-self: flex-end;
 }
 
 .message-gpt {
+  display: flex;
   background-color: #f0f0f0;
 }
 
@@ -102,4 +147,46 @@ button {
   border-radius: 0.25rem;
   cursor: pointer;
 }
+
+.avatar{
+  width: 5%;
+  position: relative;
+  /* 设置高度与宽度相等 */
+  height: 0;
+  padding-bottom: 5%;
+  margin-right: 1%;
+  img{
+    width: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  :deep(.el-icon){
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    background-color: rgb(7, 135, 199);
+    border-radius: 3px;
+    color: #fff;
+  }
+}
+
+.message-content{
+  text-align: left;
+  line-height: 1.5;
+  width: 89%;
+}
+
+// :deep(.el-icon){
+//   text-align: left;
+//   width: 100%;
+//   font-size: large;
+// }
+
+
 </style>

@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-05-01 19:52:22
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-25 22:53:45
+ * @LastEditTime: 2023-04-01 11:10:04
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -23,13 +23,13 @@
         >登录</el-button
       >
 
-      <el-switch
+      <!-- <el-switch
         v-model="theme"
         inline-prompt
         :active-icon="mySun"
         :inactive-icon="myMoon"
         style="--el-switch-on-color: #f2f2f2; --el-switch-off-color: #2c2c2c"
-      />
+      /> -->
 
       <div class="user-avatar" v-if="false" style="margin-left: 10px">
         <el-dropdown trigger="click">
@@ -60,8 +60,8 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue'
-import myMoon from './components/MyMoon.vue';
-import mySun from './components/MySun.vue';
+// import myMoon from './components/MyMoon.vue';
+// import mySun from './components/MySun.vue';
 import OlpLoginAndRegiseter from '../../../OlpLoginAndRegiseter/OlpLoginAndRegiseter.vue'
 import { useDark, useToggle, useStorage } from '@vueuse/core';
 const modelVisible = ref(false);

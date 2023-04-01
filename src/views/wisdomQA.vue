@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-30 19:37:28
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-31 10:22:09
+ * @LastEditTime: 2023-04-01 16:40:02
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -14,7 +14,37 @@
 
     <div class="question-body">
       <div class="question-content">
-        <chatModule></chatModule>
+        <div class="introduceBox" v-show="introduceShowFlag">
+          <div class="introduce-content">
+              <div class="introduce-logo">
+                <span class="banner_title">医疗大脑</span>
+              </div>
+              <div class="introduce-function">
+                <div class="function-item" v-for="item in functionList">
+                    <div class="item-logo">
+                        <div class="function-item-logo">
+                          <el-icon size="30">
+                              <component :is="item.icon" />
+                          </el-icon>
+                        </div>
+                        <div  class="function-item-title">
+                          <span>
+                            {{ item.title }}
+                          </span>
+                        </div>
+                    </div>
+                    <div class="item-introduce">
+                      <div class="introduce-item" v-for="introduces in item.introduceList">
+                        <div class="introduce-item-content">
+                            <span>{{ introduces.text }}</span>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <chatModule @dropDownValueChange="userInput" ></chatModule>
       </div>
     </div>
   </div>
@@ -23,10 +53,58 @@
 <script setup>
 import OlpHeaderMenu from '../components/base/OlpHeaderMenu/OlpHeaderMenu.vue'
 import Typed from 'typed.js'
-import {onMounted} from 'vue'
+import {onMounted,reactive,ref} from 'vue'
 import chatModule from '../components/common/chatModule/index.vue'
+const introduceShowFlag = ref(true)
 
+const userInput = (flag) =>{
+  introduceShowFlag.value = !flag
+}
 
+const functionList = reactive([
+  {
+    icon:"Sunny",
+    title:"Examples",
+    introduceList:[
+      {
+        text:"Explain quantum computing in simple terms"
+      },
+      {
+        text:"Got any creative ideas for a 10 year old’s birthday?"
+      },{
+        text:"How do I make an HTTP request in Javascript?"
+      }
+    ]
+  },
+  {
+    icon:"Trophy",
+    title:"Capabilities",
+    introduceList:[
+      {
+        text:"Explain quantum computing in simple terms"
+      },
+      {
+        text:"Got any creative ideas for a 10 year old’s birthday?"
+      },{
+        text:"How do I make an HTTP request in Javascript?"
+      }
+    ]
+  },
+  {
+    icon:"Lock",
+    title:"Limitations",
+    introduceList:[
+      {
+        text:"Explain quantum computing in simple terms"
+      },
+      {
+        text:"Got any creative ideas for a 10 year old’s birthday?"
+      },{
+        text:"How do I make an HTTP request in Javascript?"
+      }
+    ]
+  }
+])
 
 
 
@@ -54,6 +132,10 @@ onMounted(()=>{
 
 <style lang="scss" scoped>
 
+.header{
+  z-index: 1;
+}
+
 .question-page{
   display: flex;
   flex-direction: column;
@@ -66,12 +148,118 @@ onMounted(()=>{
   flex-grow: 1;
   flex-direction: column;
   align-items: center;
-  background: blue;
+  // background: blue;
 }
 
 .question-content{
   width: 65%;
   height: 100%;
-  background-color: pink;
+  margin-top: 10px;
+  // background-color: pink;
 }
+
+.introduceBox{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  height: 100%;
+  // background-color: black;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  // z-index: -1;
+}
+
+.introduce-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: 60%;
+  // background-color: #fff;
+}
+
+
+.introduce-logo{
+  width: 100%;
+  height: 20%;
+  // background-color: pink;
+  .banner_title{
+    background-image: linear-gradient(to right, rgb(7, 135, 199), rgb(0, 162, 233));
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size:2.5vw;
+    font-weight: 600;
+  }
+  
+}
+
+.introduce-function{
+  display: flex;
+  justify-content: space-around;
+  height: 80%;
+  width: 100%;
+  // background-color: skyblue;
+}
+
+.function-item{
+  width: 32%;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-introduce{
+  flex-grow:1 ;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.introduce-item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30%;
+  background-color: #fff;
+  border-radius:5px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: rgb(247, 247, 247);
+  transition: all .5s;
+  cursor: pointer;
+}
+
+.introduce-item:hover{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.introduce-item-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 80%;
+  span{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+  
+}
+
+.function-item-logo{
+  :deep(.el-icon){
+    font-weight: 600;
+  }
+}
+
+.function-item-title{
+  margin:1% 0 1% 0;
+  font-weight: 600;
+}
+
+
 </style>
