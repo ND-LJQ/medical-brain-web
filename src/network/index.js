@@ -1,21 +1,14 @@
 /*
  * @Author: ND_LJQ
- * @Date: 2023-03-25 20:59:45
+ * @Date: 2023-04-02 13:03:35
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-25 22:10:35
- * @Description: 
- * @Email: ndliujunqi@outlook.com
- */
-/*
- * @Author: ND_LJQ
- * @Date: 2022-08-17 17:01:11
- * @LastEditors: Rv_Jiang
- * @LastEditTime: 2022-09-13 22:32:18
+ * @LastEditTime: 2023-04-02 15:47:55
  * @Description:
  * @Email: ndliujunqi@outlook.com
  */
+import SecurityAPI from './api/security';
+import SearchAPI from './api/search';
+import FileAPI from './api/file';
+import AnswerAPI from './api/answer';
 
-import SecurityAPI from './security';
-
-
-export { SecurityAPI };
+export { SecurityAPI, SearchAPI, FileAPI, AnswerAPI };

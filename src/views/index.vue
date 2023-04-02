@@ -50,6 +50,8 @@
 
   onMounted(()=>{
     
+    console.log(import.meta.env);
+    
     let header = document.querySelector(".header")
   
     
@@ -81,6 +83,8 @@
     const titleTyped = new Typed('#title_typed',titleOptions)
     const textTyped = new Typed('#text_typed',textOptions)
   })
+
+
   
   
   </script>

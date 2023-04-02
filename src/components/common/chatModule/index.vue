@@ -28,7 +28,7 @@
 
 <script setup>
 import { ref,onMounted,defineEmits } from 'vue';
-import user from '../../../network/security/user';
+
 
 // const userAvatarSrc = "../../../assets/images/braincoloful.svg"
 // const brainAvatarSrc = "../../../assets/images/logo1-removebg-preview.svg"

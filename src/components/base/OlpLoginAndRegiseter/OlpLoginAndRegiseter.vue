@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-05-19 09:33:22
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-27 13:32:40
+ * @LastEditTime: 2023-04-02 13:13:36
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -140,8 +140,12 @@ import {reactive,onMounted,ref,watch}  from 'vue'
 import type { FormInstance } from 'element-plus';
 import { ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
-import { SecurityAPI } from '../../../network/index';
 import { useGetters } from '../../../utils/useMapper';
+import { SecurityAPI } from '../../../network';
+
+
+console.log(SecurityAPI);
+
 
 const store = useStore();
 const userStore = useGetters('userStore', ['token', 'isAuthenticated']);

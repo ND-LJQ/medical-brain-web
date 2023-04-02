@@ -1,7 +1,7 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
-import router from './router/index'
+import { createApp } from 'vue';
+import './style.css';
+import App from './App.vue';
+import router from './router/index';
 import store from './store/index';
 // 全局重置样式
 import './assets/styles/reset/index.scss';
@@ -11,14 +11,17 @@ import 'element-plus/theme-chalk/display.css';
 import * as Elicons from '@element-plus/icons-vue';
 // 自定义主题
 import './assets/styles/element/index.scss';
-
+// loading自定义组件
+import Loading from './components/common/loading/index.vue';
 
 const app = createApp(App);
 
 //全局注册elementplus icon
 const _Elicons = Elicons;
-Object.keys(Elicons).forEach(key => {
-    app.component(key, _Elicons[key]);
+Object.keys(Elicons).forEach((key) => {
+	app.component(key, _Elicons[key]);
 });
 
-app.use(router).use(store).mount('#app')
+app.component('Loading', Loading);
+
+app.use(router).use(store).mount('#app');

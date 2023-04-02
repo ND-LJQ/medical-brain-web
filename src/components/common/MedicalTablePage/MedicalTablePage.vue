@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 17:23:05
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-01 16:59:21
+ * @LastEditTime: 2023-04-02 16:20:08
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -13,9 +13,11 @@
       <!-- <el-table-column type="index" width="0" /> -->
       <el-table-column prop="projectName" label="项目名称"  >
         <template #default="scope">
-        <el-icon><Folder /></el-icon>
-        {{ scope.row.projectName}}
-      </template>
+          <span style="font-size:16px">
+              <svg t="1680363168686" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3223" xmlns:xlink="http://www.w3.org/1999/xlink" width="20"><path d="M0 128a51.2 51.2 0 0 1 51.2-51.2h350.24a51.2 51.2 0 0 1 47.0592 31.0336L473.6 166.4h499.2a51.2 51.2 0 0 1 51.2 51.2v537.6a51.2 51.2 0 0 1-51.2 51.2H51.2a51.2 51.2 0 0 1-51.2-51.2V128z" fill="#FFA000" p-id="3224"></path><path d="M89.6 249.6m51.2 0l742.4 0q51.2 0 51.2 51.2l0 460.8q0 51.2-51.2 51.2l-742.4 0q-51.2 0-51.2-51.2l0-460.8q0-51.2 51.2-51.2Z" fill="#FFFFFF" p-id="3225"></path><path d="M0 332.8m51.2 0l921.6 0q51.2 0 51.2 51.2l0 512q0 51.2-51.2 51.2l-921.6 0q-51.2 0-51.2-51.2l0-512q0-51.2 51.2-51.2Z" fill="#FFCA28" p-id="3226"></path></svg>
+          </span>
+          {{ scope.row.projectName}}
+        </template>
       </el-table-column>
       <el-table-column prop="fileName" label="文件名称"  />
       <el-table-column prop="updateTime" label="更新时间" sortable />
@@ -61,8 +63,8 @@
 </template>
 
 <script setup>
-import {reactive,ref,computed} from 'vue'
-
+import {reactive,ref,computed, onMounted} from 'vue'
+import { FileAPI } from '../../../network/index'
 // const tableRowClassName = ({ row, rowIndex }) => {
 //   if (rowIndex === 1) {
 //     return 'warning-row'
@@ -195,6 +197,19 @@ const tableData = [
       // 下载文件
         window.open('/your-download-api?fileId=' + fileId, '_blank');
     }
+
+    const token = "12344"
+
+    const getUserFileList = async () => {
+      await FileAPI.uploadApi.upload.getFileList(token).then(res =>{
+          console.log(res);
+        })
+    }
+
+
+    onMounted(()=>{
+      getUserFileList(token)
+    })
 
 
 

@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-30 19:37:28
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-01 16:40:02
+ * @LastEditTime: 2023-04-01 17:09:04
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -17,7 +17,7 @@
         <div class="introduceBox" v-show="introduceShowFlag">
           <div class="introduce-content">
               <div class="introduce-logo">
-                <span class="banner_title">医疗大脑</span>
+                <span class="banner_title">医学大脑</span>
               </div>
               <div class="introduce-function">
                 <div class="function-item" v-for="item in functionList">

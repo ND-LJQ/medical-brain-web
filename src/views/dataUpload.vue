@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 16:11:24
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-27 10:56:41
+ * @LastEditTime: 2023-04-02 15:54:20
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -25,7 +25,10 @@
   <el-upload
     class="upload-demo"
     drag
-    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+    :action="baseUrl"
+    :headers="{ Authorization: 'Bearer ' + token }"
+    :on-change="handleChange"
+    :on-success="handleSuccess"
     multiple
   >
     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
@@ -34,7 +37,7 @@
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        jpg/png files with a size less than 500kb
+        pdf files with a size less than 500kb
       </div>
     </template>
   </el-upload>
@@ -68,8 +71,13 @@
 <script setup>
 import OlpHeaderMenu from '../components/base/OlpHeaderMenu/OlpHeaderMenu.vue'
 import MedicalTablePage from '../components/common/MedicalTablePage/MedicalTablePage.vue'
-import { ref } from 'vue';
+import { ElMessage } from 'element-plus';
+import { ref,onMounted,watch,nextTick } from 'vue';
 
+const baseUrl = import.meta.env.VITE_BASE_URL + "/file/testfile/"
+const uploadRef = ref(null); // 添加上传组件的引用
+const fileList = ref([]);
+const token = ref('')
 const dialogVisible = ref(false)
 
 const handleClose = (done) => {
@@ -82,6 +90,49 @@ const handleClose = (done) => {
     })
 }
 
+
+const handleSuccess = (response, file, fileList) => {
+      console.log(response);
+      if (response.code === 200) {
+        ElMessage.success('文件上传成功');
+      } else {
+        ElMessage.error('文件上传失败');
+      }
+    };
+
+    const handleChange = (file, fileList) => {
+      // 等待上传组件的引用准备好，然后再进行上传操作
+      nextTick(() => {
+        if (uploadRef.value) {
+          uploadRef.value.uploadFiles();
+        }
+      });
+    };
+
+    const beforeUpload = (file) => {
+      // 等待上传组件的引用准备好，然后再加上授权信息
+      nextTick(() => {
+        if (uploadRef.value) {
+          uploadRef.value.setRequestHeader('Authorization', 'Bearer ' + token.value);
+        }
+      });
+      return true;
+    };
+
+    // 监听上传组件的变化，获取上传组件的引用
+    const onUploadComponentChanged = () => {
+      uploadRef.value = document.querySelector('.el-upload')?.__vue__;
+    };
+    watch(uploadRef, (value) => {
+      if (!value) {
+        onUploadComponentChanged();
+      }
+    });
+
+
+    onMounted(()=>{
+      console.log( baseUrl);
+    })
 </script>
 
 <style lang="scss" scoped>
