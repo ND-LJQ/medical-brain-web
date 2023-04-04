@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 20:09:52
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-27 09:24:27
+ * @LastEditTime: 2023-04-03 16:34:41
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -69,7 +69,7 @@ onMounted(() => {
   let option;
 
   myChart.showLoading()
-  axios.get('../src/assets/test.json').then(response => {
+  axios.get('https://4x7431w235.imdo.co/knowledge/').then(response => {
     myChart.hideLoading()
     var graph = response.data
     graph.nodes.forEach(function(node) {
@@ -77,7 +77,7 @@ onMounted(() => {
     })
     option = {
       title: {
-        text: 'Les Miserables',
+        text: '医学大脑知识图谱',
         subtext: 'Default layout',
         top: 'bottom',
         left: 'right',
@@ -109,7 +109,7 @@ onMounted(() => {
       animationEasingUpdate: 'quinticInOut',
       series: [
         {
-          name: 'Les Miserables',
+          name: '医学大脑知识图谱',
           type: 'graph',
           layout: 'none',
           data: graph.nodes,
@@ -230,6 +230,10 @@ onMounted(() => {
   margin-top:60px;
 }
 
+canvas {
+  width: 100%;
+  height: 100%;
+}
 
 .search-box{
   width: 100%;

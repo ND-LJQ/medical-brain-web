@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-05-02 07:58:08
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-02 16:35:01
+ * @LastEditTime: 2023-04-03 13:37:21
  * @Description:对axios进行二次封装
  * @Email: ndliujunqi@outlook.com
  */
@@ -60,7 +60,7 @@ class Request {
 		this.instance.interceptors.response.use(
 			(res: AxiosResponse) => {
 				//只返回响应中所需要的data数据
-				if (res.data.code !== 200) {
+				if (res.status !== 200) {
 					return Promise.reject(res.data);
 				}
 				return res.data;

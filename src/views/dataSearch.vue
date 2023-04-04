@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-26 23:01:06
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-30 18:10:29
+ * @LastEditTime: 2023-04-04 09:12:17
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -24,8 +24,7 @@
                 placeholder="请输入要搜索的内容"
                 @select="handleSelect"
                 style="width: auto;"
-                clearable="true"
-                select-when-unmatched="true"
+                :select-when-unmatched= true
                 @change="searchBtnClick()"
               />
             </div>
@@ -53,9 +52,9 @@
                 :fetch-suggestions="querySearchAsync"
                 placeholder="请输入要搜索的内容"
                 @select="handleSelect"
+                :autofocus="!inputPositionShowFlag"
                 style="height: 100%;"
-                clearable="true"
-                select-when-unmatched="true"
+                :select-when-unmatched=true
                 @keydown.enter="searchBtnClick"
               />
               </div>
@@ -73,8 +72,8 @@
 
       <div class="search-result-box" v-if="!inputPositionShowFlag">
         <div class="search-result-left">
-            <div class="result-list">
-                <div class="result-item" v-for="item in resultList.hits">
+              <transition-group name="search-result" tag="div" class="result-list">
+                <div class="result-item" v-for="(item,index) in resultList.hits" @click="toSearchResult(item)">
 
                   <div class="item-content">
 
@@ -98,17 +97,17 @@
                         <div style="display: flex;justify-content: center;align-items: center;">
                           <el-tag>匹配度:{{ numberFomat(item._score) }}%</el-tag>
                           <el-tag style="margin-left: 5px;">
-                            <el-icon><Pointer /></el-icon>:{{ item._source.点赞量 }}
+                            <el-icon><Pointer /></el-icon>:{{ item._source.good }}
                           </el-tag>
                           <el-tag style="margin-left: 5px;">
-                            <el-icon><View /></el-icon>:{{ item._source.浏览量 }}
+                            <el-icon><View /></el-icon>:{{ item._source.scan }}
                           </el-tag>
                         </div>
                     </div>
-
+                  
                   </div>
                 </div>
-            </div>         
+              </transition-group>       
         </div>
         <!-- <div class="search-result-right">
           之后可以添加搜索热门榜单
@@ -127,9 +126,13 @@
 
 <script setup>
 import OlpHeaderMenu from '../components/base/OlpHeaderMenu/OlpHeaderMenu.vue'
-import { onMounted, ref,reactive,computed,watch } from 'vue'
-
+import { onMounted, ref,reactive,computed,watch   } from 'vue'
+import { SearchAPI } from '../network/index'
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
 const inputValue = ref('')
+
+
 
 
 
@@ -143,186 +146,7 @@ const links = reactive([])
 
 
 
-const resultList = reactive({
-    "total": 33,
-    "max_score": 4.3735275,
-    "hits": [
-        {
-            "_score": 100.0,
-            "_source": {
-                "text": "S-L-F G-S-F G-S-R S-L-R rHEP-nCOV-S N P M D s L G-S-F G-S-R S-L-F S-L-R rHEP-nCOV-S1 N P  M G S1 L \n5\n2\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "page": 5,
-                "amount": 2,
-                "c_type": "图片",
-                "filename": "表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "浏览量": 0,
-                "点赞量": 0
-            },
-            "highlight": {
-                "text": [
-                    "S-L-F G-S-F G-S-R S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S N P M D s L G-S-F G-S-R S-L-F S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 N P  M G S1 L \n5\n2\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdfS-L-F G-S-F G-S-R S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S N P M D s L G-S-F G-S-R S-L-F S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 N P  M G S1 L \n5\n2\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdfS-L-F G-S-F G-S-R S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S N P M D s L G-S-F G-S-R S-L-F S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 N P  M G S1 L \n5\n2\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdfS-L-F G-S-F G-S-R S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S N P M D s L G-S-F G-S-R S-L-F S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 N P  M G S1 L \n5\n2\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdfS-L-F G-S-F G-S-R S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S N P M D s L G-S-F G-S-R S-L-F S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 N P  M G S1 L \n5\n2\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf"
-                ]
-            }
-        },
-        {
-            "_score": 91.628903671007,
-            "_source": {
-                "text": "rHEP-Flury rHEP-nCOV-S1 rHEP-nCOV-S 24 h 36 h 48 h 60 h \n10\n1\n图片\n基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf",
-                "page": 10,
-                "amount": 1,
-                "c_type": "图片",
-                "filename": "基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf",
-                "浏览量": 0,
-                "点赞量": 0
-            },
-            "highlight": {
-                "text": [
-                    "<font style='color:red;font-size:20px'>rHEP</font>-Flury <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S 24 h 36 h 48 h 60 h \n10\n1\n图片\n基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf"
-                ]
-            }
-        },
-        {
-            "_score": 88.14564444833147,
-            "_source": {
-                "text": "MOI=0.01 MOI=1 A B rHEP-nCOV-S Log Virus Titer(FFU/mL) rHEP-nCOV-S1 6H rHEP-Flury rHEP-nCOV-S rHEP-nCOV-S1 rHEP-Flury OL oL 0 12 24 48 72 96 0 12 24 48 72 96 Hours post infection Hours post infection \n9\n1\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "page": 9,
-                "amount": 1,
-                "c_type": "图片",
-                "filename": "表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "浏览量": 0,
-                "点赞量": 0
-            },
-            "highlight": {
-                "text": [
-                    "MOI=0.01 MOI=1 A B <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S Log Virus Titer(FFU/mL) <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 6H <font style='color:red;font-size:20px'>rHEP</font>-Flury <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S <font style='color:red;font-size:20px'>rHEP</font>",
-                    "-nCOV-S1 <font style='color:red;font-size:20px'>rHEP</font>-Flury OL oL 0 12 24 48 72 96 0 12 24 48 72 96 Hours post infection Hours post infection \n9\n1\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf"
-                ]
-            }
-        },
-        {
-            "_score": 82.95550445264149,
-            "_source": {
-                "text": "图 5 RT-PCR 鉴定重组病毒   M：DL2000 DNA Marker；1、2：G-S 引物扩增 rHEP-nCOV-S1 和 rHEP-nCOV-S；3、4：S-L 引物扩增 rHEP-nCOV-S1 和 rHEP-nCOV-S；P：阳性对照（质粒 pSARS-CoV-2-S）；N：阴性对照 \nFigure 5 Identification of recombinant virus using RT-PCR. M: DL2000 DNA Marker; 1, 2: Amplification of rHEP-nCOV-S1 and rHEP-nCOV-S with G-S primer; 3, 4: Amplification of rHEP-nCOV-S1 and rHEP-nCOV-S with S-L primer; P: Positive control (plasmid pSARS-CoV-2-S); N: Negative control. \n8\n2\n文字\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "page": 8,
-                "amount": 2,
-                "c_type": "文字",
-                "filename": "表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "浏览量": 0,
-                "点赞量": 0
-            },
-            "highlight": {
-                "text": [
-                    "图 5 RT-PCR 鉴定重组病毒   M：DL2000 DNA Marker；1、2：G-S 引物扩增 <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 和 <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S；3、4：S-L 引物扩增 <font style='color:red;font-size:20px'>rHEP</font>",
-                    "-nCOV-S1 和 <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S；P：阳性对照（质粒 pSARS-CoV-2-S）；N：阴性对照 \nFigure 5 Identification of recombinant virus",
-                    " using RT-PCR. M: DL2000 DNA Marker; 1, 2: Amplification of <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 and <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S with G-S",
-                    " primer; 3, 4: Amplification of <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 and <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S with S-L primer; P: Positive control"
-                ]
-            }
-        },
-        {
-            "_score": 81.4739589496122,
-            "_source": {
-                "text": "2.2 重组病毒的拯救结果 \n\t将辅助质粒分别与重组质粒 pSARS-CoV-2-S1 及 pSARS-CoV-2-S 共转染至 BHK-21 细胞，在转染第 7 天收集细胞上清，通过免疫荧光鉴定，成功拯救分别携带 S1 和 S 基 因的重组 RABV 毒株，分别命名为 rHEP-nCOV-S1 和 rHEP-nCOV-S，免疫荧光染色结 果见图 4。\n7\n3\n文字\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "page": 7,
-                "amount": 3,
-                "c_type": "文字",
-                "filename": "表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "浏览量": 0,
-                "点赞量": 0
-            },
-            "highlight": {
-                "text": [
-                    "，成功拯救分别携带 S1 和 S 基 因的重组 RABV 毒株，分别命名为 <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 和 <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S，免疫荧光染色结 果见图 4。\n7\n3\n文字\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf"
-                ]
-            }
-        },
-        {
-            "_score": 80.14412850953836,
-            "_source": {
-                "text": "rHEP-Flury rHEP-nCOV-S1 rHEP-nCOV-S 24 h 36 h 48 h 60 h \n10\n1\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "page": 10,
-                "amount": 1,
-                "c_type": "图片",
-                "filename": "表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "浏览量": 0,
-                "点赞量": 0
-            },
-            "highlight": {
-                "text": [
-                    "<font style='color:red;font-size:20px'>rHEP</font>-Flury <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S 24 h 36 h 48 h 60 h \n10\n1\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf"
-                ]
-            }
-        },
-        {
-            "_score": 78.42524826927463,
-            "_source": {
-                "text": "130, rHEP-nCOV-S rHEP-nCOV-S1 % Body weight change rHEP-Flury 120 PBS 110 100 8 10 12131415161718192021 Dayspostinfection \n10\n2\n图片\n基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf",
-                "page": 10,
-                "amount": 2,
-                "c_type": "图片",
-                "filename": "基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf",
-                "浏览量": 0,
-                "点赞量": 0
-            },
-            "highlight": {
-                "text": [
-                    "130, <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 % Body weight change <font style='color:red;font-size:20px'>rHEP</font>-Flury 120 PBS 110 100 8 10"
-                ]
-            }
-        },
-        {
-            "_score": 78.42524826927463,
-            "_source": {
-                "text": "rHEP-Flury N P M D L BsiWI Nhe I rHEP-nCOV-S N P M G L BsiW I Nhe I rHEP-nCOV-S1 N P M G S1 L \n5\n1\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "page": 5,
-                "amount": 1,
-                "c_type": "图片",
-                "filename": "表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf",
-                "浏览量": 0,
-                "点赞量": 0
-            },
-            "highlight": {
-                "text": [
-                    "<font style='color:red;font-size:20px'>rHEP</font>-Flury N P M D L BsiWI Nhe I <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S N P M G L BsiW I Nhe I <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 N P M G S1 L \n5\n1\n图片\n表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性_罗均.pdf"
-                ]
-            }
-        },
-        {
-            "_score": 78.29982777060394,
-            "_source": {
-                "text": "S-L-F G-S-F G-S-R S-L-R rHEP-nCOV-S N P M D s L G-S-F G-S-R S-L-F S-L-R rHEP-nCOV-S1 N P  M G S1 L \n5\n2\n图片\n基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf",
-                "page": 5,
-                "amount": 2,
-                "c_type": "图片",
-                "filename": "基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf",
-                "浏览量": 0,
-                "点赞量": 0
-            },
-            "highlight": {
-                "text": [
-                    "S-L-F G-S-F G-S-R S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S N P M D s L G-S-F G-S-R S-L-F S-L-R <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 N P  M G S1 L \n5\n2\n图片\n基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf"
-                ]
-            }
-        },
-        {
-            "_score": 75.82899615927876,
-            "_source": {
-                "text": "rHEP-nCOV-S rHEP-nCOV-S1 cells control \n7\n2\n图片\n基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf",
-                "page": 7,
-                "amount": 2,
-                "c_type": "图片",
-                "filename": "基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf",
-                "浏览量": 0,
-                "点赞量": 0
-            },
-            "highlight": {
-                "text": [
-                    "<font style='color:red;font-size:20px'>rHEP</font>-nCOV-S <font style='color:red;font-size:20px'>rHEP</font>-nCOV-S1 cells control \n7\n2\n图片\n基于新冠病毒核衣壳蛋白N端...构的抗病毒药物设计（英文）_栾晓东.pdf"
-                ]
-            }
-        }
-    ]
-})
+const resultList = reactive({})
   
 
 const loadAll = () => {
@@ -338,9 +162,7 @@ const loadAll = () => {
 }
 
 
-const searchResultList = reactive([{
-  
-}])
+const searchResultList = reactive([{}])
 
 
 let timeout = null
@@ -372,14 +194,21 @@ const numberFomat = (num) =>{
 }
 
 //搜索按钮点击
-const searchBtnClick = () =>{
-
-//请求接口
-
-console.log("测试");
-
+const searchBtnClick = async () =>{
+    //请求接口
+   await SearchAPI.getResultList(inputValue.value).then(res=>{
+       resultList.total = res.total
+       resultList.max_score = res.total
+       resultList.hits = res.hits
+    }).catch((err)=>{
+      console.log(err);
+    })
 }
 
+//前往搜索的内容
+const toSearchResult =  (item) => {
+  router.push({ name: 'viewpdf', query: { fileName:item._source.filename,pageIndex:item._source.page,method:"search" }  });
+};
 
 
 onMounted(() => {
@@ -677,6 +506,16 @@ onMounted(() => {
 }
 
 
+.search-result-enter-active,
+.search-result-leave-active {
+  transition: all 0.3s;
+}
+
+.search-result-enter,
+.search-result-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
 
 
 @keyframes searchChange {

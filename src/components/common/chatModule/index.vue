@@ -19,7 +19,7 @@
         type="text"
         placeholder="请输入您的消息"
       />
-      <button @click="sendMessage">发送</button>
+      <el-button :loading="buttonLoading" size="large"  @click="sendMessage">发送</el-button>
     </div>
   </div>
 
@@ -28,31 +28,38 @@
 
 <script setup>
 import { ref,onMounted,defineEmits } from 'vue';
-
+import { AnswerAPI } from '../../../network/index'
 
 // const userAvatarSrc = "../../../assets/images/braincoloful.svg"
 // const brainAvatarSrc = "../../../assets/images/logo1-removebg-preview.svg"
 const showAvatarFlag = ref(true)
 const showChatMessages = ref(true)
 const emit = defineEmits(['dropDownValueChange'])
+const buttonLoading = ref(false)
 
 const messages = ref([]);
     const userInput = ref('');
 
-    const sendMessage = () => {
+    const sendMessage = async () => {
       if(userInput.value!=''){
         emit('dropDownValueChange',true)
       if (!userInput.value.trim()) return;
 
       messages.value.push({ sender: 'user', content: userInput.value });
+      const userInputCopy = userInput.value
       userInput.value = '';
-
+      buttonLoading.value = true
       // 这里添加与 GPT API 交互的逻辑，获取 GPT 的回复。
       // 为了简化示例，我们使用一个模拟回复。
-      const gptResponse = '这是 GPT 的回复。';
+      let gptResponse = '这是 GPT 的回复。';
+      await AnswerAPI.sendMessage(userInputCopy).then(res=>{
+        gptResponse = res.answer
+        buttonLoading.value = false
+      })
       messages.value.push({ sender: 'gpt', content: gptResponse });
       }
     };
+
 
     const messageClass = (message) => {
       if(message.sender === 'user'){
@@ -180,6 +187,22 @@ button {
   text-align: left;
   line-height: 1.5;
   width: 89%;
+}
+
+.message-gpt{
+  opacity: 0;
+  animation: gpt-show 300ms forwards ease-out;
+}
+
+@keyframes gpt-show {
+  0% {
+    transform: translateY(50px);
+    opacity: .5;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 // :deep(.el-icon){

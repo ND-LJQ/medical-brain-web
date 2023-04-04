@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 09:34:45
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-02 14:14:54
+ * @LastEditTime: 2023-04-03 10:51:28
  * @Description:
  * @Email: ndliujunqi@outlook.com
  */
@@ -15,6 +15,18 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+	base: './',
+	// server: {
+	// 	// https: true,
+	// 	// cors: true,
+	// 	proxy: {
+	// 		'/api': {
+	// 			target: 'https://4x7431w235.imdo.co/',
+	// 			changeOrigin: true,
+	// 			rewrite: (path) => path.replace(/^\/api/, ''),
+	// 		},
+	// 	},
+	// },
 	plugins: [
 		vue(),
 		AutoImport({
@@ -26,6 +38,7 @@ export default defineConfig({
 	],
 	css: {
 		loaderOptions: {
+			extract: false,
 			scss: {
 				prependData: `@import ./src/assets/styles/global.scss;`,
 			},

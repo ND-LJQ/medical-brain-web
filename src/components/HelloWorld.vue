@@ -1,5 +1,13 @@
+<!--
+ * @Author: ND_LJQ
+ * @Date: 2023-03-25 09:34:45
+ * @LastEditors: ND_LJQ
+ * @LastEditTime: 2023-04-03 08:11:25
+ * @Description: 
+ * @Email: ndliujunqi@outlook.com
+-->
 <script setup>
-import { ref } from 'vue'
+import { ref,defineProps } from 'vue'
 
 defineProps({
   msg: String,

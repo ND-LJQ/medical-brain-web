@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 10:13:34
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-30 22:45:50
+ * @LastEditTime: 2023-04-03 21:58:36
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -27,8 +27,8 @@
         </div>
   
         <div class="btn_list">
-          <el-button type="primary">免费使用</el-button>
-          <el-button type="primary">知识竞赛</el-button>
+          <el-button type="primary">数据上传</el-button>
+          <el-button type="primary">数据搜索</el-button>
         </div>
     </div>
     </div>

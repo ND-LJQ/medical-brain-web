@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-09-05 17:26:49
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-02 16:38:12
+ * @LastEditTime: 2023-04-03 11:07:12
  * @Description:
  * @Email: ndliujunqi@outlook.com
  */
@@ -10,6 +10,7 @@
 import Request from './request';
 import storage from '../../utils/storage';
 import { useGetters } from '../../utils/useMapper';
+import login from '../api/security/login';
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const request = new Request({
@@ -24,6 +25,8 @@ const request = new Request({
 			} else {
 				config.headers = { token: userStore.value };
 			}
+			// // 添加跨域请求头
+			// config.headers['Access-Control-Allow-Headers'] = 'Content-Type, token';
 			return config;
 		},
 		// 响应拦截器

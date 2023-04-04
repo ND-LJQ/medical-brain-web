@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-05-19 09:33:22
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-02 13:13:36
+ * @LastEditTime: 2023-04-03 21:53:43
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -144,7 +144,7 @@ import { useGetters } from '../../../utils/useMapper';
 import { SecurityAPI } from '../../../network';
 
 
-console.log(SecurityAPI);
+// console.log(SecurityAPI);
 
 
 const store = useStore();
@@ -172,23 +172,17 @@ const ruleForm = reactive({
 });
 
 onMounted(() => {
-  // console.log('Modal正在挂载.....');
   let login = document.querySelector('.login') as HTMLElement;
   let register = document.querySelector('.register') as HTMLElement;
   let loginBtn = document.querySelector('.loginBtn') as HTMLElement;
   let registerBtn = document.querySelector('.registerBtn') as HTMLElement;
-  console.log(loginBtn);
-  console.log(registerBtn);
-  console.log(modelVisible);
   loginBtn?.addEventListener('click', () => {
-    // console.log('我被点击了!');
     if (register != null) {
       register.style.transform = 'rotateY(180deg)';
       login.style.transform = 'rotateY(0)';
     }
   });
   registerBtn?.addEventListener('click', () => {
-    // console.log('我被点击了!');
     if (login != null) {
       login.style.transform = 'rotateY(-180deg)';
       register.style.transform = 'rotateY(0)';
@@ -235,22 +229,6 @@ watch(
 // From表单校验
 const ruleFormRef = ref<FormInstance>();
 
-// const checkAge = (rule: any, value: any, callback: any) => {
-//   if (!value) {
-//     return callback(new Error('Please input the age'));
-//   }
-//   setTimeout(() => {
-//     if (!Number.isInteger(value)) {
-//       callback(new Error('Please input digits'));
-//     } else {
-//       if (value < 18) {
-//         callback(new Error('Age must be greater than 18'));
-//       } else {
-//         callback();
-//       }
-//     }
-//   }, 1000);
-// };
 
 const openElmessage = (info: string, mType: any) => {
   console.log(info, mType);
@@ -279,18 +257,18 @@ const validateAccount = (rule: any, value: any, callback: any) => {
 
 const reg_password_pass = ref(true);
 const validatePass = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    reg_password_pass.value = false;
-    callback(new Error('请输入密码'));
-  } else {
-    const pass = /^(?=.*[a-zA-Z])(?=.*\d).{1,15}$/.test(value);
-    if (!pass) {
-      reg_password_pass.value = false;
-      callback(new Error('密码至少包含字母、数字，1-15位'));
-    }
-    reg_password_pass.value = true;
-    callback();
-  }
+  // if (value === '') {
+  //   reg_password_pass.value = false;
+  //   callback(new Error('请输入密码'));
+  // } else {
+  //   const pass = /^(?=.*[a-zA-Z])(?=.*\d).{1,15}$/.test(value);
+  //   if (!pass) {
+  //     reg_password_pass.value = false;
+  //     callback(new Error('密码至少包含字母、数字，1-15位'));
+  //   }
+  //   reg_password_pass.value = true;
+  //   callback();
+  // }
 };
 
 const reg_checkPassword_pass = ref(true);
@@ -358,30 +336,29 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 // 用户登录逻辑
 const userLogin = () => {
-  console.log('已触发');
-  console.log(ruleForm.account);
-  console.log(ruleForm.pass);
 
   if (ruleForm.account == '' || ruleForm.pass == '') {
-    console.log('已触发2');
+    // console.log('已触发2');
     ElMessage.error({
       message: '请将账号密码信息输入完整!',
       center: true,
     });
     return;
   } else if (reg_password_pass.value == true && reg_account_pass.value == true) {
-    console.log('已触发3');
+    // console.log('已触发3');
     userLoginInfo.username = ruleForm.account;
     userLoginInfo.password = ruleForm.pass;
-    // const jsonString = JSON.stringify(userLoginInfo);
-    const result = SecurityAPI.Login.LoginAPI.userLogin(userLoginInfo)
-      .then(res => {
-        console.log(res);
-        if (res.code == 200) {
-          store.commit('userStore/setToken', res.data.token);
+    
+    // console.log(userLoginInfo.password);
+    const result = SecurityAPI.Login.LoginAPI.userLogin(userLoginInfo).then(res => {
+        // console.log(res);
+        
+        if (res.status == 'success') {
+          store.commit('userStore/setToken', res.token);
           console.log('成功!');
+          
           ElMessage.success({
-            message: res.msg,
+            message: res.message,
             center: true,
             onClose: () => {
               onCancel();
@@ -389,14 +366,12 @@ const userLogin = () => {
           });
         }
       })
-      .catch(err => {
+      .catch(err => {        
         ElMessage.error({
-          message: err.msg,
+          message: err.message,
           center: true,
         });
       });
-    // console.log(jsonString);
-    console.log(result);
   }
 };
 

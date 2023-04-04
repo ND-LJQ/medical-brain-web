@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 16:11:24
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-02 15:54:20
+ * @LastEditTime: 2023-04-04 13:02:13
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -26,10 +26,12 @@
     class="upload-demo"
     drag
     :action="baseUrl"
-    :headers="{ Authorization: 'Bearer ' + token }"
+    :headers="{ Authorization: token }"
     :on-change="handleChange"
+    accept=".pdf"
     :on-success="handleSuccess"
     multiple
+    :before-upload="beforeUpload"
   >
     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
     <div class="el-upload__text">
@@ -57,9 +59,10 @@
         <span>分析项目</span>
         <el-button type="primary" plain  @click="dialogVisible = true">新建分析</el-button>
       </div>
+      
 
       <div class="list-body">
-        <MedicalTablePage></MedicalTablePage>
+        <MedicalTablePage :reloadFlag="false" ></MedicalTablePage>
       </div>
     </div>
     
@@ -73,16 +76,25 @@ import OlpHeaderMenu from '../components/base/OlpHeaderMenu/OlpHeaderMenu.vue'
 import MedicalTablePage from '../components/common/MedicalTablePage/MedicalTablePage.vue'
 import { ElMessage } from 'element-plus';
 import { ref,onMounted,watch,nextTick } from 'vue';
-
+import { useGetters } from '../utils/useMapper/index';
+import { RouterLink, useRouter } from 'vue-router'
 const baseUrl = import.meta.env.VITE_BASE_URL + "/file/testfile/"
 const uploadRef = ref(null); // 添加上传组件的引用
 const fileList = ref([]);
-const token = ref('')
+const reloadFlag = ref(false)
+const router = useRouter()
+
+
+const userStore = useGetters('userStore', ['token']);
+const token = userStore.token.value;
 const dialogVisible = ref(false)
 
 const handleClose = (done) => {
   ElMessageBox.confirm('您确定已经上传完毕了吗')
     .then(() => {
+      if(reloadFlag.value){
+        location.reload();
+      }
       done()
     })
     .catch(() => {
@@ -92,11 +104,13 @@ const handleClose = (done) => {
 
 
 const handleSuccess = (response, file, fileList) => {
-      console.log(response);
-      if (response.code === 200) {
+      if (response.status === 'success') {
         ElMessage.success('文件上传成功');
+        reloadFlag.value = true
+
       } else {
         ElMessage.error('文件上传失败');
+        reloadFlag.value = false
       }
     };
 
@@ -112,11 +126,18 @@ const handleSuccess = (response, file, fileList) => {
     const beforeUpload = (file) => {
       // 等待上传组件的引用准备好，然后再加上授权信息
       nextTick(() => {
-        if (uploadRef.value) {
-          uploadRef.value.setRequestHeader('Authorization', 'Bearer ' + token.value);
-        }
+        var testmsg=file.name.substring(file.name.lastIndexOf('.')+1)				
+				const extension = testmsg === 'pdf'
+
+				const isLt2M = file.size / 1024 / 1024 < 10     //这里做文件大小限制
+				if(!extension) {
+          ElMessage.warning('上传文件只能是pdf格式!');
+				}
+				if(!isLt2M) {
+          ElMessage.warning('上传文件大小不能超过 10MB!');
+				}
+				return extension && isLt2M
       });
-      return true;
     };
 
     // 监听上传组件的变化，获取上传组件的引用

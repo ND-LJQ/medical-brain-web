@@ -10,10 +10,9 @@
 import OLPRequest from '../../../request/index';
 const MODULE_URL = '/context/';
 
-export const resetToResult = (data) => {
-	return OLPRequest({
-		url: MODULE_URL,
-		method: 'GET',
-		data,
-	});
+export const resetToResult = (fileName, pageIndex) => {
+    return OLPRequest({
+        url: MODULE_URL + '?filename=' + `${fileName.replace(/\.pdf$/, '')}` + '&' + 'page=' + pageIndex,
+        method: 'GET',
+    });
 };

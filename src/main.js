@@ -1,3 +1,11 @@
+/*
+ * @Author: ND_LJQ
+ * @Date: 2023-03-25 09:34:45
+ * @LastEditors: ND_LJQ
+ * @LastEditTime: 2023-04-03 06:34:46
+ * @Description:
+ * @Email: ndliujunqi@outlook.com
+ */
 import { createApp } from 'vue';
 import './style.css';
 import App from './App.vue';
@@ -13,6 +21,8 @@ import * as Elicons from '@element-plus/icons-vue';
 import './assets/styles/element/index.scss';
 // loading自定义组件
 import Loading from './components/common/loading/index.vue';
+// 引入动画库animate.css
+import 'animate.css';
 
 const app = createApp(App);
 

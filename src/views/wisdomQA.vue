@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-30 19:37:28
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-01 17:09:04
+ * @LastEditTime: 2023-04-03 21:39:48
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -64,44 +64,44 @@ const userInput = (flag) =>{
 const functionList = reactive([
   {
     icon:"Sunny",
-    title:"Examples",
+    title:"解析高性能",
     introduceList:[
       {
-        text:"Explain quantum computing in simple terms"
+        text:"采用知识图谱的技术，让回答更加符合用户的预期"
       },
-      {
-        text:"Got any creative ideas for a 10 year old’s birthday?"
-      },{
-        text:"How do I make an HTTP request in Javascript?"
-      }
+      // {
+      //   text:"Got any creative ideas for a 10 year old’s birthday?"
+      // },{
+      //   text:"How do I make an HTTP request in Javascript?"
+      // }
     ]
   },
   {
     icon:"Trophy",
-    title:"Capabilities",
+    title:"匹配更精准",
     introduceList:[
       {
-        text:"Explain quantum computing in simple terms"
+        text:"高性能搜索引擎，让答案匹配更加精准。"
       },
-      {
-        text:"Got any creative ideas for a 10 year old’s birthday?"
-      },{
-        text:"How do I make an HTTP request in Javascript?"
-      }
+      // {
+      //   text:"Got any creative ideas for a 10 year old’s birthday?"
+      // },{
+      //   text:"How do I make an HTTP request in Javascript?"
+      // }
     ]
   },
   {
     icon:"Lock",
-    title:"Limitations",
+    title:"回答更专业",
     introduceList:[
       {
-        text:"Explain quantum computing in simple terms"
+        text:"严格按照用户上传的论文进行分析，匹配符合度最高回答。"
       },
-      {
-        text:"Got any creative ideas for a 10 year old’s birthday?"
-      },{
-        text:"How do I make an HTTP request in Javascript?"
-      }
+      // {
+      //   text:"Got any creative ideas for a 10 year old’s birthday?"
+      // },{
+      //   text:"How do I make an HTTP request in Javascript?"
+      // }
     ]
   }
 ])
@@ -221,7 +221,9 @@ onMounted(()=>{
 .introduce-item{
   display: flex;
   justify-content: center;
+  flex-grow: 1;
   align-items: center;
+  font-weight:600 ;
   height: 30%;
   background-color: #fff;
   border-radius:5px;

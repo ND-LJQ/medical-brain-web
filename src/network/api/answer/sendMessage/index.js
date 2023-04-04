@@ -12,8 +12,7 @@ const MODULE_URL = '/answer/';
 
 export const sendMessage = (data) => {
 	return OLPRequest({
-		url: MODULE_URL,
+		url: MODULE_URL + '?ask_content=' + `${data}`,
 		method: 'GET',
-		data,
 	});
 };
