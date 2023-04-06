@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 16:11:24
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-04 13:02:13
+ * @LastEditTime: 2023-04-06 17:49:11
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -35,11 +35,11 @@
   >
     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
     <div class="el-upload__text">
-      Drop file here or <em>click to upload</em>
+      拖拽文件或者 <em>点击</em>以上传
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        pdf files with a size less than 500kb
+        pdf files with a size less than 10Mb
       </div>
     </template>
   </el-upload>
@@ -175,4 +175,6 @@ const handleSuccess = (response, file, fileList) => {
   }
   
 }
+
+
 </style>

@@ -210,6 +210,13 @@ button {
 //   width: 100%;
 //   font-size: large;
 // }
+@media (max-width: 768px) {
 
+
+  .message-content{
+    font-size: 10px;
+  }
+
+}
 
 </style>

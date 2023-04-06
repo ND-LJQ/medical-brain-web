@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 10:13:34
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-03 21:58:36
+ * @LastEditTime: 2023-04-06 17:40:07
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -27,7 +27,7 @@
         </div>
   
         <div class="btn_list">
-          <el-button type="primary">数据上传</el-button>
+          <el-button type="primary" >数据上传</el-button>
           <el-button type="primary">数据搜索</el-button>
         </div>
     </div>
@@ -74,7 +74,7 @@
     }
 
     const textOptions = {
-      strings:['让数据分析更简单'],
+      strings:['让知识获取变得更简单'],
       typeSpeed:150,
       startDelay:750,
       loop:false
@@ -110,7 +110,7 @@
       object-fit: cover;
       outline: none!important;
       mix-blend-mode: darken;
-      width: 100%;
+      width:100vw;
       height: 99.81vh;
     }
   }
@@ -159,6 +159,18 @@
     }
   }
 
+  @media screen and (max-width: 768px) {
+
+    #title_typed,#text_typed{
+      font-size: 5.5vw;
+    }
+    :deep(.el-button) {
+      font-size: 3vw!important;
+      height: 7.5vw!important;
+       width: 16.5vw!important;
+  }
+
+}
 
 
   

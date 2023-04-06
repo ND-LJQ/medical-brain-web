@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-30 19:37:28
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-03 21:39:48
+ * @LastEditTime: 2023-04-06 17:14:33
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -44,6 +44,7 @@
               </div>
           </div>
         </div>
+
         <chatModule @dropDownValueChange="userInput" ></chatModule>
       </div>
     </div>
@@ -263,5 +264,25 @@ onMounted(()=>{
   font-weight: 600;
 }
 
+@media (max-width: 768px) {
+  .introduce-function{
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .function-item{
+    flex-grow: 1;
+    width: 100%;
+    margin-top:10px ;
+  }
+
+  .introduce-logo{
+      height: 10%;
+      .banner_title{
+        font-size: 7.5vw;
+      }
+  }
+
+}
 
 </style>

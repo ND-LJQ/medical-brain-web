@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 17:23:05
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-04 12:56:35
+ * @LastEditTime: 2023-04-06 18:20:20
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -95,23 +95,6 @@ const paginationState = reactive({
 
 
 
-
-
-  // const state = reactive({
-  //     page: 1,
-  //     limit: 10,
-  //     total: tableData.value.length,
-  //   })
-
-  
-  //前端限制分页（tableData为当前展示页表格）
-  // const nowTableData = () => {
-  //     return tableData.value.filter(
-  //       (item, index) =>
-  //         index < state.page * state.limit &&
-  //         index >= state.limit * (state.page - 1)
-  //     );
-  //   };
   // 获取当前页面数据
 const getCurrentPageData = () => {
   const startIndex = (paginationState.currentPage - 1) * paginationState.pageSize
@@ -138,19 +121,6 @@ const handleCurrentChange = (currentPage) => {
 const handleSizeChange = (pageSize) => {
   paginationState.pageSize = pageSize
 }
-
-
-    // 最终的搜索列表
-    // const filterTableData = computed(() =>{
-    // const test =  nowTableData().filter(
-    //     (data) =>
-    //       !search.value || data.fileName.toLowerCase().includes(search.value.toLowerCase())
-    // )
-
-    // console.log(test);
-    // return test
-    // }
-    //   )
 
 
 
@@ -307,7 +277,14 @@ const handleSizeChange = (pageSize) => {
   .responsive-table th {
     font-size: 0.8rem;
   }
+
+  .table-body{
+    .table-pillar{
+    height: 80vh;
+  }
+  }
 }
+
 
 @media screen and (max-width: 576px) {
   .responsive-table td,

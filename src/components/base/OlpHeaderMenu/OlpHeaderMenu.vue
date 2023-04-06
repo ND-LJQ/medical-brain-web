@@ -2,13 +2,13 @@
  * @Author: ND_LJQ
  * @Date: 2022-04-30 18:36:59
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-03-30 21:31:56
+ * @LastEditTime: 2023-04-06 18:08:32
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
 <template>
   <el-row :gutter="10">
-    <el-col :span="5">
+    <el-col :span="6">
       <div class="logo-box" style="margin: 0;">
         <!-- 选择logo位置是左?中?右? -->
         <div class="content-left">
@@ -21,23 +21,30 @@
         </div>
       </div>
     </el-col>
-    <el-col :span="16">
+    <el-col :span="15">
       <div class="menu-content" ref="menuContent">
         <el-menu
           :default-active="$route.path"
           class="el-menu-header"
-          mode="horizontal"
+          :mode="modeType"
           @select="handleSelect"
-          :collapse="isCollapse.value"
+          :collapse="isCollapse"
         >
           <div class="flex-grow" />
           <!-- 递归动态菜单 -->
-          <olp-menu-item :item-arr="itemArr" />
+          <olp-menu-item :item-arr="itemArr" />       
         </el-menu>
+        
+        <!-- <el-button @click="handlerCollapse">
+            展开
+          </el-button> -->
       </div>
     </el-col>
-    <el-col :span="3">
+    <el-col :span="3" class="userInfo">
       <olp-menu-button />
+      <!-- <el-button @click="handlerClick">
+          测试
+      </el-button> -->
     </el-col>
   </el-row>
 </template>
@@ -48,8 +55,14 @@ import { useRouter } from 'vue-router';
 import OlpMenuItem from './components/OlpMenuItem/OlpMenuItem.vue';
 
 const router = useRouter();
+const modeType = ref("horizontal");
 
-const itemArr = reactive([
+
+const handlerClick = () =>{
+  modeType.value = "vertical"
+}
+
+const itemArr = ref([
   {
     // 注意！注意！有children的菜单项，path不会使用的，所以path为什么都无所谓；没children的，即children的length等于0的，才会使用path属性做路由跳转
     name: '首页',
@@ -114,6 +127,80 @@ const itemArr = reactive([
     ],
   },
 ]);
+
+
+const copyArr = itemArr.value
+const smallItemArr = ref([{
+    name: '',
+    sort: '1',
+    icon: 'MoreFilled',
+    children: [{
+    // 注意！注意！有children的菜单项，path不会使用的，所以path为什么都无所谓；没children的，即children的length等于0的，才会使用path属性做路由跳转
+    name: '首页',
+    sort: '1',
+    icon: 'house',
+
+    path: '/home',
+    children: [],
+  },
+  {
+    name: '数据上传',
+    sort: '2',
+    icon: 'Files',
+    path: '/dataup',
+    children: [],
+  },
+  {
+    name: '数据搜索',
+    sort: '3',
+    icon: 'Search',
+    path:'/datasearch',
+    children: [],
+  },
+  {
+    name: '知识图谱',
+    sort: '4',
+    icon: 'Cpu',
+    path: '/knowledgemap',
+    children: [],
+  },
+  {
+    name: '智能问答',
+    sort: '5',
+    path: '/smartqa',
+    icon: 'ChatDotSquare',
+    children: [],
+  },
+  {
+    name: '团队',
+    sort: '8',
+    icon: 'user',
+    path: '/team',
+    children: [],
+  },
+  {
+    name: '关于',
+    sort: '9',
+    icon: 'warning',
+    children: [
+      {
+        name: '简介',
+        sort: '9-1',
+        icon: '',
+        children: [],
+      },
+      {
+        name: '开发者',
+        sort: '9-2',
+        icon: '',
+        children: [],
+      },
+    ],
+  },],
+}])
+
+
+
 const activeIndex = ref('');
 // 动态检测当前路由修改导航栏激活项
 watch(
@@ -122,7 +209,7 @@ watch(
     let index = '';
     let routerPath = routerInstance.meta?.title;
     if (routerPath != null) {
-      itemArr.forEach(item => {
+      itemArr.value.forEach(item => {
         if (item.path?.substring(1) === routerPath) {
           index = '/' + routerPath;
         }
@@ -146,14 +233,18 @@ const handleClose = () => {
   isCollapse.value = true;
 };
 
+const handlerCollapse = () =>{
+  isCollapse.value = !isCollapse.value
+}
+
 const menuContent = ref();
 
 const findC = (arr1) => {
   if (
-    itemArr.filter(() => {
+    itemArr.value.filter(() => {
       return arr1.forEach(item => {
         if (
-          itemArr.find(function (items) {
+          itemArr.value.find(function (items) {
             return items.icon === item.icon;
           }) != undefined
         ) {
@@ -172,7 +263,7 @@ const findC = (arr1) => {
 
 const isHas = (newWidth, popItem, popArr, omit) => {
   if (
-    itemArr.find(function (popArr) {
+    itemArr.value.find(function (popArr) {
       return popArr.icon === 'MoreFilled';
     }) != undefined
   ) {
@@ -180,49 +271,39 @@ const isHas = (newWidth, popItem, popArr, omit) => {
       console.log('我怕被触发了');
     }
   } else {
-    popItem = itemArr.pop();
+    popItem = itemArr.value.pop();
     omit.children.unshift(popItem);
     popArr.push(popItem);
-    itemArr.push(omit);
+    itemArr.value.push(omit);
   }
 };
 
 const getWidth = () => {
-  nextTick(() => {
-    if (menuContent.value) {
-      //div容器获取tableBox.value.clientWidth
-      let newWidth = menuContent.value.clientWidth;
-      // width.value = (newWidth - 450) / 2;
-
-      if (newWidth <= 1100) {
-        const omit = {
-          name: '',
-          sort: '10',
-          icon: 'MoreFilled',
-          children: [],
-        };
-
-        let popItem = null;
-        const popArr = [];
-      }
+  if (menuContent.value) {
+    let newWidth = menuContent.value.clientWidth;
+        if(newWidth<=768){
+          itemArr.value = smallItemArr.value
+          // console.log("我被执行了if");
+        }else if(newWidth >768){
+          // console.log("我被执行了else");
+          itemArr.value = copyArr
+        }
+    
     }
-  });
+  }
+
+const handleResize = () => {
+  isCollapse.value = window.innerWidth < 768;
+  getWidth(); // 在此处调用 getWidth
 };
 
-
-
-
-    const  handleResize = () => {
-      isCollapse.value = window.innerWidth < 768;
-    }
-
 onMounted(() => {
-  getWidth();
-  window.addEventListener('resize', getWidth);
+  getWidth()
+  window.addEventListener('resize',  handleResize);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', getWidth);
+  window.removeEventListener('resize',  handleResize);
 });
 </script>
 
@@ -241,6 +322,16 @@ ul {
 :deep(.el-menu-item:hover)
 {
     background-color: transparent;
+}
+
+:deep(.menu-content),
+:deep(.el-menu),
+:deep(.el-sub-menu),
+:deep(.el-sub-menu:focus),
+:deep(.el-menu:hover)
+{
+  height: 100%;
+  background-color: transparent;
 }
 
 
@@ -270,6 +361,25 @@ ul {
     
   }
 }
+
+
+@media (max-width: 768px) {
+  .userInfo{
+    display: none;
+  }
+
+  :deep(.menu-content){
+    display: flex;
+    justify-content: end;
+    height: 100%;
+  }
+
+  .text-gradient{
+    font-size:4vw!important;
+  }
+
+}
+
 
 
 </style>
