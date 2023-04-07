@@ -1,0 +1,1059 @@
+import json
+
+from django.http import HttpResponse, JsonResponse
+from elasticsearch import Elasticsearch
+
+from search.models import FileCont
+
+
+def es2(request):
+    es = Elasticsearch(['http://192.168.60.101:9200/'])
+    body = {
+        "mappings": {
+            "doc": {
+                "properties": {
+                    "filename": {
+                        "type": "text"
+                    },
+                    "content": {
+                        "type": "text",
+                    },
+                    "page": {
+                        "type":"long"
+                    },
+                    "amount":{
+                        "type":"long"
+                    }
+                }
+            }
+        },
+        "settings": {
+            "number_of_shards": 2,  # 分片数
+            "number_of_replicas": 0  # 副本数
+        },
+    }
+
+
+    es.indices.create(body=body,index="meiduo")
+
+    return JsonResponse({'status':'ok'})
+
+def filter_msg(search_data,search_text):
+    print(search_text)
+    es = Elasticsearch(['http://192.168.60.101:9200/'])
+    body = {
+        "query": {
+            "bool": {
+                "should": [
+                    {
+                        "match": {
+                            "text": search_text,
+                        }
+                    }
+                ]
+            }
+        },
+        "highlight": {
+            "pre_tags": ["<font style='color:red;font-size:20px'>"],
+            "post_tags": ["</font>"],
+            "fields": {
+                "text": {"type": "plain"},
+            }
+        }
+    }
+    res = es.search(index=search_data, body=body)
+    res = res["hits"]
+    for i in res["hits"]:
+        i["_score"] = int(i["_score"]/res["max_score"]*100)
+        i.pop('_index')
+        i.pop('_type')
+        i.pop("_id")
+        i["_source"].pop("id")
+        i["_source"].pop("django_ct")
+        i["_source"].pop("django_id")
+        i["_source"]["good"] = 0
+        i["_source"]["scan"] = 0
+    return res
+def suggest_founction(search_msg, search_data):
+    es = Elasticsearch(['http://192.168.60.101:9200/'])
+    body = {
+        "suggest": {
+            "my_sugget": {
+                "text": search_msg,
+                "completion": {
+                    "field": "suggest",
+                    "fuzzy":{}
+
+                }
+            }
+        }
+    }
+    res = es.search(index=search_data, body=body)
+    res = [i['text'] for i in res['suggest']['my_sugget'][0]['options']]
+    print(res)
+    return res
+
+def suggest(request):
+    search_msg = request.GET.get("search_msg")
+    print(search_msg)
+    res = suggest_founction(search_msg=search_msg,search_data="meiduo")
+    print(res)
+    return JsonResponse(res)
+
+
+def everyone(request):
+    search_msg = request.GET.get("search_msg")
+    print(search_msg)
+    res = filter_msg("meiduo",search_msg)
+    return JsonResponse(res)
+
+
+def knowlege(request):
+    dict = {
+        "nodes": [{
+            "id": "0",
+            "name": "EnSite-NavX和双 Lasso",
+            "symbolSize": 37,
+            "x": -266.82776,
+            "y": 299.6904,
+            "category": 0,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "1",
+            "name": "治疗阵发性房颤",
+            "symbolSize": 17,
+            "x": -418.08344,
+            "y": 446.8853,
+            "category": 0,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "2",
+            "name": "抗心律失常",
+            "symbolSize": 17,
+            "x": -212.76357,
+            "y": 245.29176,
+            "category": 0,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "3",
+            "name": "三维导航双Lasso",
+            "symbolSize": 17,
+            "x": -242.82404,
+            "y": 235.26283,
+            "category": 0,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "4",
+            "name": "治疗阵发性房颤",
+            "symbolSize": 17,
+            "x": -379.30386,
+            "y": 429.06424,
+            "category": 0,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "5",
+            "name": "普罗帕酮",
+            "symbolSize": 17,
+            "x": -417.26337,
+            "y": 406.03506,
+            "category": 0,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "6",
+            "name": "治疗阵发性房颤的成功率高",
+            "symbolSize": 17,
+            "x": -332.6012,
+            "y": 485.16974,
+            "category": 0,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "7",
+            "name": "FOCUS超声刀开放性甲状腺切除术",
+            "symbolSize": 37,
+            "x": -400.69568,
+            "y": 446.09113,
+            "category": 1,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "8",
+            "name": "甲状腺疾病",
+            "symbolSize": 17,
+            "x": -320.384,
+            "y": 387.17325,
+            "category": 1,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "9",
+            "name": "未切断的Berry韧带",
+            "symbolSize": 17,
+            "x": -344.39832,
+            "y": 451.16772,
+            "category": 1,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "10",
+            "name": "开放性甲状腺切除术",
+            "symbolSize": 17,
+            "x": -89.34107,
+            "y": 234.56128,
+            "category": 1,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "11",
+            "name": "切除甲状腺",
+            "symbolSize": 17,
+            "x": -87.93029,
+            "y": -6.8120565,
+            "category": 1,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "12",
+            "name": "住院",
+            "symbolSize": 17,
+            "x": -339.77908,
+            "y": -184.69139,
+            "category": 1,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "13",
+            "name": "FOCUS 超声刀具有良好的应用价值及临床疗效",
+            "symbolSize": 17,
+            "x": -194.31313,
+            "y": 178.55301,
+            "category": 1,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "14",
+            "name": "环肺静脉线性消融电学隔离肺静脉方法学评价",
+            "symbolSize": 37,
+            "x": 600.05168,
+            "y": 101.99768,
+            "category": 2,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "15",
+            "name": "心房颤动",
+            "symbolSize": 17,
+            "x": 780.701546,
+            "y": -68.55057,
+            "category": 2,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "16",
+            "name": "管壁缓缓回撤",
+            "symbolSize": 17,
+            "x": 780.2226,
+            "y": -15.5572,
+            "category": 2,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "17",
+            "name": "三维标测单环状标测导管",
+            "symbolSize": 17,
+            "x": 500.55884,
+            "y": -15.98975,
+            "category": 2,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "18",
+            "name": "肺静脉方法学评价",
+            "symbolSize": 17,
+            "x": 900.79382,
+            "y": 78.57944,
+
+            "category": 2,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "19",
+            "name": "Swartz鞘管推注肝6000U",
+            "symbolSize": 17,
+            "x": 850.1624,
+            "y": 120.9891,
+            "category": 2,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "20",
+            "name": "穿刺针误穿锁骨动脉可导致巨大血肿",
+            "symbolSize": 17,
+            "x": 300.12122,
+            "y": 20.5048,
+            "category": 2,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            },
+            "label":{
+                "show":'false'
+            }
+        },
+        {
+            "id": "21",
+            "name": "下肢深静脉血栓形成的临床风险因素分析",
+            "symbolSize": 37,
+            "x": -800.44113,
+            "category": 3,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            },
+            "label": {
+                "show": 'false'
+            }
+        },
+        {
+            "id": "22",
+            "name": "下肢深静脉血栓",
+            "symbolSize": 17,
+            "x": -459.1107,
+            "y": -362.5133,
+            "category": 3,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "23",
+            "name": "无血流或频谱不随呼吸变化",
+            "symbolSize": 17,
+            "x": -313.42786,
+            "y": -289.44803,
+            "category": 3,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            },
+            "label": {
+                "show": 'false'
+            }
+        },
+        {
+            "id": "24",
+            "name": "人工关节置换术",
+            "symbolSize": 17,
+            "x": 4.6313396,
+            "y": -273.8517,
+            "category": 3,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            },
+            "label": {
+                "show": 'false'
+            }
+        },
+        {
+            "id": "25",
+            "name": "分析术后肢深静脉血栓形成因素",
+            "symbolSize": 17,
+            "x": 82.80825,
+            "y": -203.1144,
+            "category": 3,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "26",
+            "name": "7～10d超声检查深静脉血流通畅",
+            "symbolSize": 17,
+            "x": 78.64646,
+            "y": -31.512747,
+            "category": 3,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "27",
+            "name": "DVT的形成无显著性相关",
+            "symbolSize": 17,
+            "x": -81.46074,
+            "y": -204.20204,
+            "category": 3,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "28",
+            "name": "Enterprise结合水解脱弹簧圈微小宽颈动脉瘤",
+            "symbolSize": 37,
+            "x": 466.73984,
+            "y": 282.41631,
+            "category": 4,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            },
+            "label": {
+                "show": 'false'
+            }
+        },
+        {
+            "id": "29",
+            "name": "宽颈动脉瘤",
+            "symbolSize": 17,
+            "x": 385.6842,
+            "y": 220.206686,
+            "category": 4,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "30",
+            "name": "破裂动脉瘤",
+            "symbolSize": 17,
+            "x": -403.92447,
+            "y": -197.69823,
+            "category": 4,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "31",
+            "name": "口服氯吡格雷 75 mg/d",
+            "symbolSize": 17,
+            "x": -281.4253,
+            "y": -158.45137,
+            "category": 4,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "32",
+            "name": "联合使用Enterprise 支架和水解脱弹簧圈栓塞治微小宽颈动脉瘤是一种安全、有效的方法",
+            "symbolSize": 17,
+            "x": -122.41348,
+            "y": 210.37503,
+            "category": 4,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "33",
+            "name": "表达新冠病毒S基因重组狂犬病病毒的构建及其免疫原性",
+            "symbolSize": 37,
+            "x": -234.6001,
+            "y": -113.15067,
+            "category": 5,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            },
+            "label": {
+                "show": 'false'
+            }
+        },
+        {
+            "id": "34",
+            "name": "新冠病毒S基因重组狂犬病病毒",
+            "symbolSize": 17,
+            "x": -387.84915,
+            "y": 58.7059,
+            "category": 5,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "35",
+            "name": "呼吸道传染病",
+            "symbolSize": 17,
+            "x": -338.2307,
+            "y": 87.48405,
+            "category": 5,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "36",
+            "name": "RABV",
+            "symbolSize": 17,
+            "x": -453.26874,
+            "y": 58.94648,
+            "category": 5,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "37",
+            "name": "分析新冠病毒免疫源性",
+            "symbolSize": 17,
+            "x": -386.44904,
+            "y": 140.05937,
+            "category": 5,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "38",
+            "name": "无",
+            "symbolSize": 17,
+            "x": -446.7876,
+            "y": 123.38005,
+            "category": 5,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "id": "39",
+            "name": "本研究拯救获得了携带SARS-CoV-2S基因和S1基因的重组狂犬病病毒",
+            "symbolSize": 17,
+            "x": 336.49738,
+            "y": -269.55914,
+            "category": 5,
+            "itemStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        }
+    ],
+    "links": [{
+            "source": "0",
+            "target": "1",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "争对疾病"
+                }
+            },
+            "lineStyle": {
+                "normal": {
+                    "opacity": 1
+                },
+                "emphasis": {}
+            }
+        },
+        {
+            "source": "0",
+            "target": "2",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "临床反应"
+                }
+            }
+        },
+        {
+            "source": "0",
+            "target": "3",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "研究技术"
+                }
+            }
+        },
+        {
+            "source": "0",
+            "target": "4",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "解决问题"
+                }
+            }
+        },
+        {
+            "source": "0",
+            "target": "5",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "术后处理"
+                }
+            }
+        },
+        {
+            "source": "0",
+            "target": "6",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "结论"
+                }
+            }
+        },
+        {
+            "source": "7",
+            "target": "8",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "针对疾病"
+                }
+            }
+        },
+        {
+            "source": "7",
+            "target": "9",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "临床反应"
+                }
+            }
+        },
+        {
+            "source": "7",
+            "target": "10",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "研究技术"
+                }
+            }
+        },
+        {
+            "source": "7",
+            "target": "11",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "解决问题"
+                }
+            }
+        },
+        {
+            "source": "7",
+            "target": "12",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "术后处理"
+                }
+            }
+        },
+        {
+            "source": "7",
+            "target": "13",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "结论"
+                }
+            }
+        },
+        {
+            "source": "14",
+            "target": "15",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "针对疾病"
+                }
+            }
+        },
+        {
+            "source": "14",
+            "target": "16",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "临床反应"
+                }
+            }
+        },
+        {
+            "source": "14",
+            "target": "17",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "研究技术"
+                }
+            }
+        },
+        {
+            "source": "14",
+            "target": "18",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "解决问题"
+                }
+            }
+        },
+        {
+            "source": "14",
+            "target": "19",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "术后处理"
+                }
+            }
+        },
+        {
+            "source": "14",
+            "target": "20",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "结论"
+                }
+            }
+        },
+        {
+            "source": "21",
+            "target": "22",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "针对疾病"
+                }
+            }
+        },
+        {
+            "source": "21",
+            "target": "23",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "临床反应"
+                }
+            }
+        },
+        {
+            "source": "21",
+            "target": "24",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "研究技术"
+                }
+            }
+        },
+        {
+            "source": "21",
+            "target": "25",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "解决问题"
+                }
+            }
+        },
+        {
+            "source": "21",
+            "target": "26",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "术后处理"
+                }
+            }
+        },
+        {
+            "source": "21",
+            "target": "27",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "结论"
+                }
+            }
+        },
+        {
+            "source": "28",
+            "target": "29",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "针对疾病"
+                }
+            }
+        },
+        {
+            "source": "28",
+            "target": "30",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "临床反应"
+                }
+            }
+        },
+        {
+            "source": "28",
+            "target": "31",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "研究技术"
+                }
+            }
+        },
+        {
+            "source": "28",
+            "target": "32",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "解决问题"
+                }
+            }
+        },
+        {
+            "source": "33",
+            "target": "34",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "术后处理"
+                }
+            }
+        },
+        {
+            "source": "33",
+            "target": "35",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "结论"
+                }
+            }
+        },
+        {
+            "source": "33",
+            "target": "36",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "针对疾病"
+                }
+            }
+        },
+        {
+            "source": "33",
+            "target": "37",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "临床反应"
+                }
+            }
+        },
+        {
+            "source": "33",
+            "target": "38",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "研究技术"
+                }
+            }
+        },
+        {
+            "source": "33",
+            "target": "39",
+            "label": {
+                "normal": {
+                    "show": 'true',
+                    "formatter": "解决问题"
+                }
+            }
+        }
+    ],
+    "categories": [{
+            "name": "Ensite-NavX和双Lasso左心房消融治疗性心房颤动"
+        },
+        {
+            "name": "FOCUS超声刀开放性甲状腺切割术临床评价"
+        },
+        {
+            "name": "线性消融电学隔离肺静脉方法学评价"
+        },
+        {
+            "name": "下肢静脉血栓形成的临床风险因素分析"
+        },
+        {
+            "name": "新型颅内支架Enterprise治疗颅内微小宽颈动脉瘤"
+        },
+        {
+            "name": "新冠病毒S基因狂犬病毒的构建与免疫原性"
+        }
+    ]
+    }
+    return JsonResponse(dict)

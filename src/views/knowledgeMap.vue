@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 20:09:52
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-03 16:34:41
+ * @LastEditTime: 2023-04-07 21:26:48
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -84,25 +84,28 @@ onMounted(() => {
       },
       tooltip: {},
       toolbox: {
-    feature: {
-      dataView: {
-        title: '数据视图',
-        readOnly: true,
-        lang: ['数据视图', '关闭', '刷新']
-      },
-      restore: {
-        title: '重置'
-      },
-      saveAsImage: {
-        title: '下载图片'
-      }
-    }
+        top: '5%',
+        feature: {
+          dataView: {
+            title: '数据视图',
+            readOnly: true,
+            lang: ['数据视图', '关闭', '刷新']
+          },
+          restore: {
+            title: '重置'
+          },
+          saveAsImage: {
+            title: '下载图片'
+          }
+        }
   },
       legend: [
         {
+          type:"scroll",
           data: graph.categories.map(function(a) {
             return a.name
           }),
+          
         },
       ],
       animationDuration: 1500,
@@ -111,7 +114,17 @@ onMounted(() => {
         {
           name: '医学大脑知识图谱',
           type: 'graph',
-          layout: 'none',
+          layout: 'circular',
+          circular: {
+            rotateLabel: true
+          },
+          label: {
+            normal: {
+                show: false,
+                position: 'outside',
+                formatter: ''
+            }
+          },
           data: graph.nodes,
           links: graph.links,
           itemStyle:{
@@ -119,10 +132,6 @@ onMounted(() => {
           },
           categories: graph.categories,
           roam: true,
-          label: {
-            position: 'right',
-            formatter: '{b}',
-          },
           lineStyle: {
             color: 'source',
             curveness: 0.3,
@@ -130,6 +139,10 @@ onMounted(() => {
           },
           emphasis: {
             focus: 'adjacency',
+            label: {
+                position: 'right',
+                show: true
+              },
             lineStyle: {
               width: 10,
             },
@@ -222,12 +235,12 @@ onMounted(() => {
     .knowledge-map{
       // background-color: black;
       width: 100%;
-      height: 60vh;
+      height: 70vh;
     }
   }
 }
 .knowledge-map{
-  margin-top:60px;
+  margin-top:30px;
 }
 
 canvas {

@@ -39,7 +39,7 @@
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        pdf files with a size less than 10Mb
+         请上传小于10Mb的pdf文件
       </div>
     </template>
   </el-upload>
