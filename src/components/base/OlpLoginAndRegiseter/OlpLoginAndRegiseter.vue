@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-05-19 09:33:22
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-03 21:53:43
+ * @LastEditTime: 2023-04-28 21:57:50
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -140,13 +140,14 @@ import {reactive,onMounted,ref,watch}  from 'vue'
 import type { FormInstance } from 'element-plus';
 import { ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router'
 import { useGetters } from '../../../utils/useMapper';
 import { SecurityAPI } from '../../../network';
 
 
 // console.log(SecurityAPI);
 
-
+const router = useRouter();
 const store = useStore();
 const userStore = useGetters('userStore', ['token', 'isAuthenticated']);
 
@@ -362,6 +363,7 @@ const userLogin = () => {
             center: true,
             onClose: () => {
               onCancel();
+              location.reload();           
             },
           });
         }

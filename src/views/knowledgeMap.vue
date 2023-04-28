@@ -77,7 +77,7 @@ onMounted(() => {
     })
     option = {
       title: {
-        text: '医学大脑知识图谱',
+        text: '学术大脑知识图谱',
         subtext: 'Default layout',
         top: 'bottom',
         left: 'right',
@@ -112,7 +112,7 @@ onMounted(() => {
       animationEasingUpdate: 'quinticInOut',
       series: [
         {
-          name: '医学大脑知识图谱',
+          name: '学术大脑知识图谱',
           type: 'graph',
           layout: 'circular',
           circular: {

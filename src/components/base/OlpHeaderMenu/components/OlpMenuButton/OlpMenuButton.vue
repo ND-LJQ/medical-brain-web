@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-05-01 19:52:22
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-04 09:05:48
+ * @LastEditTime: 2023-04-28 21:53:06
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -58,17 +58,17 @@
   <olp-login-and-regiseter :model-value="modelVisible" @handle-check="handleCheck" />
 </template>
 
-<script lang="ts" setup>
+<script  setup>
 import {ref,onMounted,computed} from 'vue'
 // import myMoon from './components/MyMoon.vue';
 // import mySun from './components/MySun.vue';
 import OlpLoginAndRegiseter from '../../../OlpLoginAndRegiseter/OlpLoginAndRegiseter.vue'
 import { useDark, useToggle, useStorage } from '@vueuse/core';
-import { watchEffect } from 'vue'
+import { watchEffect,watch } from 'vue'
 import { useGetters} from '../../../../../utils/useMapper';
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-const store = useStore('userStore');
+import { useStore } from 'vuex';
+const store = useStore();
 const loginType = ref(false)
 const userStore = useGetters('userStore', ['token']);
 const modelVisible = ref(false);
@@ -90,43 +90,69 @@ const toggleDark = useToggle(isDark);
 const vueuseColorScheme = useStorage('vueuse-color-scheme', '');
 const theme = vueuseColorScheme.value === 'dark' ? ref(false) : ref(true);
 
-const token = ref(localStorage.getItem('token'));
+const token = ref("");
 
 console.log(token.value);
 
+watch(() => localStorage.getItem('token'), (newToken, oldToken) => {
+  // 处理 localStorage 值发生变化的情况
+  console.log(`localStorage 值从 ${oldToken} 变为 ${newToken}`);
+});
+
 watchEffect(() => {
   token.value = localStorage.getItem('token');
-  console.log(token.value);
-  
-  if (token.value !== null || token.value !== '' || token.value !==  undefined) {
+  // const x2 = person.age;
+  console.log("watchEffect配置的回调执行了");
+});
+
+const updateLoginType = () => {
+  token.value = localStorage.getItem('token');
+  console.log("update");
+
+  if (token.value !== `""` && token.value !== null) {
     loginType.value = true;
   } else {
     loginType.value = false;
   }
-});
+};
 
 const loginHandler = () => {
   modelVisible.value = true;
   // console.log(modelVisible.value);
 };
 
-const handleCheck = (param: any) => {
+const handleCheck = (param) => {
   modelVisible.value = param;
 };
 
 
 const logoutHandler = () =>{
-  window.localStorage.removeItem("token");
+  store.dispatch("userStore/clearUserInfo");
   loginType.value = false;
   router.push('/')
 }
 
 onMounted(()=>{
-  if (token.value !== null || token.value !== '' || token.value !==  undefined) {
+  token.value = localStorage.getItem('token')
+
+
+  if ( token.value !== `""` && token.value !== null ) {
+
+    console.log(token.value == `""`);
+    
     loginType.value = true;
+    console.log("已进入1");
+    
   } else {
     loginType.value = false;
   }
+
+  
+  window.addEventListener('setItemEvent', event => {
+      if(event.key === 'token') {
+        console.log(event.newValue)
+      }
+  })
 })
 </script>
 

@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2022-04-30 18:36:59
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-06 18:08:32
+ * @LastEditTime: 2023-04-28 07:27:08
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -17,7 +17,7 @@
           <img src="../../../assets/images/logo1-removebg-preview.svg" alt="" style="height: 100%;">
         </div>
         <div class="content-right">
-          <span class="text-gradient">医学大脑</span>
+          <span class="text-gradient">学术大脑</span>
         </div>
       </div>
     </el-col>

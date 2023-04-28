@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 10:13:34
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-06 17:40:07
+ * @LastEditTime: 2023-04-28 07:28:29
  * @Description: 
  * @Email: ndliujunqi@outlook.com
 -->
@@ -67,7 +67,7 @@
     })
 
     const titleOptions = {
-      strings:['医学大脑'],
+      strings:['学术大脑'],
       typeSpeed:150, //打印速度,number越大速度越慢
       // startDelay:300,
       loop:false
