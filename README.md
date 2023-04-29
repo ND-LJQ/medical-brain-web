@@ -1,7 +1,73 @@
-# Vue 3 + Vite
+<!--
+ * @Author: ND_LJQ
+ * @Date: 2023-03-25 09:34:45
+ * @LastEditors: ND_LJQ
+ * @LastEditTime: 2023-04-30 07:55:45
+ * @Description:
+ * @Email: ndliujunqi@outlook.com
+-->
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+# 学术大脑前端
 
-## Recommended IDE Setup
+本项目是学术大脑的前端部分，使用了以下技术：
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- [Vite](https://github.com/vitejs/vite) 构建工具
+- [Vue3](https://v3.vuejs.org/) 前端框架
+- [Axios](https://axios-http.com/) 网络请求库
+- [Sass](https://sass-lang.com/) CSS 预处理器
+- [Element Plus](https://element-plus.org/) UI 组件库
+
+## 项目结构
+
+```bash
+├── public # 静态资源
+├── src # 源代码
+│ ├── api # API 接口定义
+│ ├── assets # 图片、字体等静态资源
+│ ├── components # 公共组件
+│ ├── network # 网络请求相关封装
+│ ├── router # 路由配置
+│ ├── store # Vuex 状态管理
+│ ├── util # 工具函数
+│ ├── views # 页面视图
+│ ├── App.vue # 根组件
+│ ├── main.js # 入口文件
+│ └── styles # 全局样式
+├── .gitignore # Git 忽略文件
+├── .prettierignore # Prettier 忽略文件
+├── .prettier.cjs # Prettier代码格式化配置文件
+├── vite.config.js # Vite配置文件
+├── package.json # 依赖及配置文件
+└── README.md # 项目说明文件
+```
+
+## 快速开始
+
+```bash
+# 克隆项目到本地
+git clone https://gitee.com/your_username/your_repo.git
+
+# 进入项目目录
+cd your_repo
+
+# 安装依赖
+npm install
+
+# 启动服务
+npm run dev
+```
+
+## 构建
+
+```bash
+# 构建生产环境
+
+npm run build
+
+#构建完成后，生成的文件位于 dist 目录下。
+
+```
+
+## 许可证
+
+[MIT](https://opensource.org/license/mit/)
