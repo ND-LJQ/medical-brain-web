@@ -2,7 +2,7 @@
  * @Author: ND_LJQ
  * @Date: 2023-03-25 09:34:45
  * @LastEditors: ND_LJQ
- * @LastEditTime: 2023-04-30 07:55:45
+ * @LastEditTime: 2023-04-30 08:03:30
  * @Description:
  * @Email: ndliujunqi@outlook.com
 -->
@@ -15,6 +15,7 @@
 - [Vue3](https://v3.vuejs.org/) 前端框架
 - [Axios](https://axios-http.com/) 网络请求库
 - [Sass](https://sass-lang.com/) CSS 预处理器
+- [ECharts 5](https://echarts.apache.org/zh/index.html) 数据可视化库
 - [Element Plus](https://element-plus.org/) UI 组件库
 
 ## 项目结构
